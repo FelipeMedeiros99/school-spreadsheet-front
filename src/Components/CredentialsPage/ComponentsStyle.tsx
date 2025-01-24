@@ -26,7 +26,7 @@ export function Form({ children, ...styleProps }: BoxProps) {
 
 export function SubmitButton({children, ...styleProps}: ButtonProps){
   return(
-    <Button w={"100%"} marginTop={"16px"} {...styleProps} bgColor={"#EC622C"} color={"White"} fontWeight={"700"}>{children}</Button>
+    <Button _hover={{backgroundColor: "#c24d20"}} w={"100%"} marginTop={"16px"} {...styleProps} bgColor={"#EC622C"} color={"White"} fontWeight={"700"}>{children}</Button>
   )
 }
 

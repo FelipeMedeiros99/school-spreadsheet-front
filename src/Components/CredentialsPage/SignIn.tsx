@@ -6,6 +6,7 @@ import { Field } from "../../components/ui/field"
 import { PasswordInput } from "../../components/ui/password-input"
 import { Form, SubmitButton, TextTop } from "./ComponentsStyle"
 
+import "./index.css"
 
 
 export default function SignIn() {

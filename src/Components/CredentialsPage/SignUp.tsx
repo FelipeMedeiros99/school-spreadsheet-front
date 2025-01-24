@@ -6,6 +6,7 @@ import { Field } from "../../components/ui/field";
 import { PasswordInput } from "../../components/ui/password-input";
 import { Form, SubmitButton, TextTop } from "./ComponentsStyle";
 
+import "./index.css"
 
 
 export default function SignUp() {
@@ -19,7 +20,7 @@ export default function SignUp() {
   const { register, handleSubmit, formState: { errors }, watch } = useForm<FormValues>()
   const onSubmit = handleSubmit((data) => { console.log(data) })
 
-  const passwordValue = watch("confirmPassword")
+  const passwordValue = watch("password")
 
   return (
 
