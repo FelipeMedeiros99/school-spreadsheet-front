@@ -15,7 +15,7 @@ export function Form({ children, ...styleProps }: BoxProps) {
           {children}
         </Stack>
      
-        <VStack as="footer" color={{base: "white", md: "black"}} justifyContent={"center"} position={"absolute"} bottom={"0"} fontWeight={"300"} fontSize={"14px"} height={"50px"} width={{base:"100%", md: "auto"}} backgroundColor={{base: "#EC622C", md: "white"}}>
+        <VStack as="footer" color={{base: "white", md: "black"}} justifyContent={"center"} position={"fixed"} bottom={"0"} fontWeight={"300"} fontSize={"14px"} height={"50px"} width={{base:"100%", md: "auto"}} backgroundColor={{base: "#EC622C", md: "white"}}>
           <Text >desenvolvido por <Text as="span" fontWeight={"700"}>Felipe Medeiros</Text>, Codetech</Text>
         </VStack>
       </Box>
