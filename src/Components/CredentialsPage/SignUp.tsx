@@ -1,9 +1,10 @@
-import { Box, Input, Stack, Button } from "@chakra-ui/react"
-import { useForm } from "react-hook-form"
-import { Link } from "react-router-dom"
+import { Box, Input, Stack, Button } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
-import { Field } from "../../components/ui/field"
-import { PasswordInput } from "../../components/ui/password-input"
+import { Field } from "../../components/ui/field";
+import { PasswordInput } from "../../components/ui/password-input";
+import { Form, SubmitButton } from "./ComponentsStyle";
 
 
 
@@ -21,7 +22,7 @@ export default function SignUp() {
   const passwordValue = watch("confirmPassword")
 
   return (
-    <Box as="form" onSubmit={onSubmit}>
+    <Form as="form" onSubmit={onSubmit}>
       <Stack>
         <Field
           label="email"
@@ -70,12 +71,12 @@ export default function SignUp() {
           />
         </Field>
 
-        <Button type="submit" >Entrar</Button>
+        <SubmitButton type="submit" >Entrar</SubmitButton>
         
 
         <Link to={"/sign-in"}>Já possui cadastro? Faça login!</Link>
       </Stack>
 
-    </Box>
+    </Form>
   )
 }

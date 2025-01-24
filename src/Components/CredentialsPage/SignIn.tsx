@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 
 import { Field } from "../../components/ui/field"
 import { PasswordInput } from "../../components/ui/password-input"
+import { Form, SubmitButton } from "./ComponentsStyle"
 
 
 
@@ -19,7 +20,7 @@ export default function SignIn() {
   const onSubmit = handleSubmit((data) => { console.log(data) })
 
   return (
-    <Box as="form" onSubmit={onSubmit} >
+    <Form as="form" onSubmit={onSubmit} >
       <Stack>
         <Field
           label="email"
@@ -54,11 +55,11 @@ export default function SignIn() {
           />
         </Field>
   
-        <Button type="submit" >Entrar</Button>
+        <SubmitButton type="submit" >Entrar</SubmitButton>
             
         <Link to={"/sign-up"}>Não possui cadastro? Cadastre-se!</Link>
       </Stack>
 
-    </Box>
+    </Form>
   )
 }

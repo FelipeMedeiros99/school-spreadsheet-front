@@ -46,3 +46,10 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+body, html, #root{
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  color: black
+}
