@@ -1,5 +1,6 @@
 import { Box, Input, Stack, Button } from "@chakra-ui/react"
 import { useForm } from "react-hook-form"
+import { Link } from "react-router-dom"
 
 import { Field } from "../../components/ui/field"
 import { PasswordInput } from "../../components/ui/password-input"
@@ -69,9 +70,12 @@ export default function SignUp() {
           />
         </Field>
 
+        <Button type="submit" >Entrar</Button>
+        
+
+        <Link to={"/sign-in"}>Já possui cadastro? Faça login!</Link>
       </Stack>
 
-      <Button type="submit" >Entrar</Button>
     </Box>
   )
 }
