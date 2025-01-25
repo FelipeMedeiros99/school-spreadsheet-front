@@ -4,6 +4,7 @@ import { Box } from "@chakra-ui/react";
 import NavBarLeft from "./Components/NavBarLeft";
 import NavBarTop from "./Components/NavBarTop";
 import Register from "./Components/Register";
+import BottomBar from "./Components/BottomBar";
 
 export default function RegisterStudent() {
   return (
@@ -11,6 +12,7 @@ export default function RegisterStudent() {
       <NavBarTop />
       <NavBarLeft />
       <Register />
+      <BottomBar />
     </Box>
   )
 }
