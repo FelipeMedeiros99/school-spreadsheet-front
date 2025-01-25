@@ -4,7 +4,7 @@ import { Routes, BrowserRouter as Router, Route, Navigate } from "react-router-d
 import SignIn from "./Components/CredentialsPage/SignIn";
 import SignUp from "./Components/CredentialsPage/SignUp";
 import Home from "./Components/Home";
-import RegisterStudent from "./Components/Home/RegisterStudentPage";
+import RegisterStudent from "./Components/Home/Components/CreateRegister";
 
 
 export default function App() {
@@ -15,8 +15,7 @@ export default function App() {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/register-student" element={<RegisterStudent />} />
-
+        <Route path="/new-register" element={<RegisterStudent />} />
       </Routes>
     </Router>
   );
