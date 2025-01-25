@@ -13,14 +13,12 @@ export default function Home(){
   return(
     <Box >
       <Header />
-      <Box >
-        <Heading as="h1">Alunos</Heading>
+      <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"} padding={{base: "20px 20px 20px 20px", md:"43px 66px 43px 66px"}}>
+        <Heading as="h1" fontWeight={"800"} fontSize={"24px"} marginLeft={{base: "0", md: "30px"}}>Alunos</Heading>
         <HomeButton>Criar Registro</HomeButton>
       </Box>
 
-      <StudentsTable>
-
-      </StudentsTable>
+      <StudentsTable />
 
     </ Box>
   )

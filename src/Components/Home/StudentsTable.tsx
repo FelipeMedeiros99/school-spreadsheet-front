@@ -6,7 +6,7 @@
 
   export default function StudentsTable() {
     return (
-      <VStack padding={"0 66px 0 66px"} >
+      <VStack padding={{base: "20px 20px 20px 20px", md:"43px 66px 43px 66px"}}>
         <Table.Root maxW={"1310px"}>
           <Table.Header>
             <Table.Row justifyContent={"space-around"} borderBottom={"solid 1px #0000001f"}>
