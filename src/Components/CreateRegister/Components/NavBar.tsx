@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function NavBar(){
   return(
-    <Box position={"relative"} bgColor={"cyan"} height={"100%"} maxW={"312px"}>
+    <Box position={"relative"} bgColor={"cyan"} height={"100%"} width={"30%"} maxW={"380px"}>
       <Box>
         <Heading>CODETECH</Heading>
         <Text>desenvolvimento de sistemas</Text>

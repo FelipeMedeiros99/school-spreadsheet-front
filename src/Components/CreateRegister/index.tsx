@@ -6,7 +6,7 @@ import Register from "./Components/Register";
 
 export default function RegisterStudent() {
   return (
-    <Box height={"100%"}>
+    <Box height={"100%"} display={"flex"}>
       <NavBar />
       <Register />
     </Box>

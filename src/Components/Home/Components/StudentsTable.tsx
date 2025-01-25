@@ -1,4 +1,4 @@
-import { Box, Table, For, VStack, Button } from "@chakra-ui/react";
+import { Box, Table, For, VStack } from "@chakra-ui/react";
 import { FaRegTrashAlt } from "react-icons/fa";
 
 
@@ -6,13 +6,13 @@ import students from "../../../data";
 
 export default function StudentsTable() {
   return (
-    <VStack padding={{ base: "0px 20px 20px 20px", md: "0px 66px 43px 66px" }}>
-      <Table.Root maxW={"1310px"}>
+    <VStack padding={{ base: "0px 20px 20px 20px", md: "0px 66px 43px 66px" }} width={"100%"}>
+      <Table.Root width={"100%"}>
         <Table.Header>
           <Table.Row justifyContent={"space-around"} borderBottom={"solid 1px #0000001f"}>
             <For each={["nome", "idade", "turma", "deletar"]}>
               {(title) => (
-                <Table.ColumnHeader key={title} textAlign={"center"} >{title}</Table.ColumnHeader>
+                <Table.ColumnHeader key={title} textAlign={"center"} verticalAlign={"middle"}>{title}</Table.ColumnHeader>
               )}
             </For>
           </Table.Row>

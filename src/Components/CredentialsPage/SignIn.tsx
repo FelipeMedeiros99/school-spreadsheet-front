@@ -7,7 +7,7 @@ import { PasswordInput } from "../../components/ui/password-input";
 
 import Form from "./Components/Form";
 import TextTop from "./Components/TextTop";
-import SubmitButton from "./Components/SubmmitButton";
+import MyButton from "../MyButton";
 
 import "./index.css"
 
@@ -63,7 +63,7 @@ export default function SignIn() {
         />
       </Field>
 
-      <SubmitButton type="submit">Entrar</SubmitButton>
+      <MyButton type="submit" w={"100%"} >Entrar</MyButton>
 
       <Link to={"/sign-up"}>Não possui cadastro? Cadastre-se!</Link>
     </Form>
