@@ -7,7 +7,7 @@ import MyButton from "../../MyButton";
 export default function Register() {
   return (
     <Box w={"100%"} h={"100%"} display={"flex"} flexDir={"column"}>
-      <Box borderBottom={"solid 1px #BBBBBB"} height={"70px"} />
+      <Box borderBottom={"solid 1px #BBBBBB"} height={{base: "120px", md:"70px"}} />
       <Box w={"100%"} display={"flex"} alignItems={"center"} justifyContent={"space-between"} padding={{ base: "20px 20px 20px 20px", md: "40px 66px 40px 66px" }}>
         <Heading as="h1" fontWeight={"800"} fontSize={"24px"} marginLeft={{ base: "0" }}>Alunos</Heading>
         <MyButton >Voltar</MyButton>
