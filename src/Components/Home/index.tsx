@@ -1,12 +1,11 @@
-import { Box, Heading, HStack, Button, VStack } from "@chakra-ui/react"  
+import { Box, Heading, VStack } from "@chakra-ui/react";
 
-import Header  from "./Components/Header"
-import { HomeButton } from "./Components/Button"
-import StudentsTable from "./Components/StudentsTable"
+import Header  from "./Components/Header";
+import { HomeButton } from "./Components/Button";
+import StudentsTable from "./Components/StudentsTable";
 
-import "./index.css"
+import "./index.css";
 
-import students from "../../data"
 
 
 export default function Home(){

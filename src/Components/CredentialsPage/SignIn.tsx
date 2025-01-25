@@ -1,10 +1,13 @@
-import { Box, Input, Stack, Button } from "@chakra-ui/react"
-import { useForm } from "react-hook-form"
-import { Link } from "react-router-dom"
+import { Input } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
-import { Field } from "../../components/ui/field"
-import { PasswordInput } from "../../components/ui/password-input"
-import { Form, SubmitButton, TextTop } from "./ComponentsStyle"
+import { Field } from "../../components/ui/field";
+import { PasswordInput } from "../../components/ui/password-input";
+
+import Form from "./Components/Form";
+import TextTop from "./Components/TextTop";
+import SubmitButton from "./Components/SubmmitButton";
 
 import "./index.css"
 

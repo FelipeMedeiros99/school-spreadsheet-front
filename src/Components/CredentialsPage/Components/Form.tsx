@@ -1,12 +1,7 @@
-import { Box, BoxProps, Button, ButtonProps, Heading, Text , Stack, VStack, Input} from "@chakra-ui/react";
-
-interface TextTopProps {
-  title: string;
-  subtitle: string;
-}
+import { Box, BoxProps, Text , Stack, VStack } from "@chakra-ui/react";
 
 
-export function Form({ children, ...styleProps }: BoxProps) {
+export default function Form({ children, ...styleProps }: BoxProps) {
   return (
     <Box display={"flex"} flexDir={{base: "column", md: "row"}}  width="100%" height="100%" position={"relative"}>
       <Box width="100%" height={{base: "100px", md:"100%" }} position={{base: "absolute", md: "relative"}} top={{base: "0", md: "auto"}} bgColor="cyan" display={{base: "block", md:"flex"}} bg={"#EC622C"}></Box>
@@ -21,21 +16,4 @@ export function Form({ children, ...styleProps }: BoxProps) {
       </Box>
     </Box>
   );
-}
-
-
-export function SubmitButton({children, ...styleProps}: ButtonProps){
-  return(
-    <Button _hover={{backgroundColor: "#D64B14"}} w={"100%"} marginTop={"16px"} {...styleProps} bgColor={"#EC622C"} color={"White"} fontWeight={"700"}>{children}</Button>
-  )
-}
-
-
-export function TextTop({title, subtitle}: TextTopProps){  
-  return(
-    <VStack gap={"8px"} >
-      <Heading as="h1" fontSize={"32px"} fontWeight={"800"}>{title}</Heading>
-      <Text fontSize={"14px"}>{subtitle}</Text>
-    </VStack>
-  )
 }

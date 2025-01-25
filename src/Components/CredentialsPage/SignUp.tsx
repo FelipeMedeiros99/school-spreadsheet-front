@@ -4,9 +4,12 @@ import { Link } from "react-router-dom";
 
 import { Field } from "../../components/ui/field";
 import { PasswordInput } from "../../components/ui/password-input";
-import { Form, SubmitButton, TextTop } from "./ComponentsStyle";
 
-import "./index.css"
+import Form from "./Components/Form";
+import TextTop from "./Components/TextTop";
+import SubmitButton from "./Components/SubmmitButton";
+
+import "./index.css";
 
 
 export default function SignUp() {
