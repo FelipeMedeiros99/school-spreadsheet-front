@@ -4,7 +4,7 @@ import { Routes, BrowserRouter as Router, Route, Navigate } from "react-router-d
 import SignIn from "./Components/CredentialsPage/SignIn";
 import SignUp from "./Components/CredentialsPage/SignUp";
 import Home from "./Components/Home";
-import RegisterStudent from "./Components/RegisterStudentPage";
+import RegisterStudent from "./Components/Home/RegisterStudentPage";
 
 
 export default function App() {

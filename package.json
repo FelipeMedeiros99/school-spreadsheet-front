@@ -43,6 +43,8 @@
     ]
   },
   "devDependencies": {
-    "@types/react": "^19.0.8"
+    "@faker-js/faker": "^9.4.0",
+    "@types/react": "^19.0.8",
+    "tsx": "^4.19.2"
   }
 }
