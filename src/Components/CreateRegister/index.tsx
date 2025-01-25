@@ -1,13 +1,13 @@
 import { Box } from "@chakra-ui/react";
 
 
-import NavBar from "./Components/NavBar";
+import NavBarLeft from "./Components/NavBarLeft";
 import Register from "./Components/Register";
 
 export default function RegisterStudent() {
   return (
     <Box height={"100%"} display={"flex"}>
-      <NavBar />
+      <NavBarLeft />
       <Register />
     </Box>
   )
