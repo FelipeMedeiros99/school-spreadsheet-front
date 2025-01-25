@@ -1,0 +1,18 @@
+tr{
+  background-color: white;
+  font-weight: 300;
+  font-size: 14px;
+}
+
+th{
+  width: 200px;
+  background-color: #EEEEEE;
+  vertical-align: middle;
+  color: black;
+  height: 50px;
+}
+
+td{
+  height: 50px;
+  color: black
+}
