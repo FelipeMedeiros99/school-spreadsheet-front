@@ -30,6 +30,15 @@ export async function signIn(userData: SignInUserData){
     const response = await api.post("/sign-in", userData);
     return response;
   }catch(e){
-    return (e as any).response;
+    return (e as any)?.response;
+  }
+}
+
+export async function signUp(userData: SignUpUserData){
+  try{
+    const response = await api.post("/sign-up", userData);
+    return response;
+  }catch(e){
+    return (e as any)?.response;
   }
 }

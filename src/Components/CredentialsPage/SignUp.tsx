@@ -1,6 +1,6 @@
 import { Input } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Field } from "../../components/ui/field";
 import { PasswordInput } from "../../components/ui/password-input";
@@ -10,24 +10,55 @@ import TextTop from "./Components/TextTop";
 import MyButton from "../MyButton";
 
 import "./index.css";
+import { ErrorData } from "./SignIn";
+import { useState } from "react";
+import ErrorAlert from "../ErrorAlert";
+import { AnimatePresence } from "framer-motion";
+import { signUp } from "../../config";
 
+interface FormValues {
+  email: string
+  password: string
+  confirmPassword: string
+}
 
 export default function SignUp() {
 
-  interface FormValues {
-    email: string
-    password: string
-    confirmPassword: string
+  const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
+  const [alertData, setAlertData] = useState<ErrorData>({ title: "", description: "", status: "error" })
+  const navigate = useNavigate()
+  
+  const { register, handleSubmit, formState: { errors }, watch } = useForm<FormValues>()
+  const onSubmit = handleSubmit((data) => { submitCommands(data) })
+  const passwordValue = watch("password")
+
+
+  function changeAlertVisibility(){
+    setAlertBoxVisibility(true);
+    setTimeout(()=>{setAlertBoxVisibility(false)}, 5000);
   }
 
-  const { register, handleSubmit, formState: { errors }, watch } = useForm<FormValues>()
-  const onSubmit = handleSubmit((data) => { console.log(data) })
+  async function submitCommands(data: any) {
+    const response = await signUp(data);
+    console.log(response)
+    if (response.status !== 201) {
+      setAlertData({ ...alertData, title: "Atenção!", description: response?.data || "Erro ao fazer cadastro", status: "error" })
+      changeAlertVisibility()
+    } else {
+      setAlertData({ ...alertData, title: "Atenção!", description: "Cadastro feito com sucesso!", status: "success" })
+      changeAlertVisibility()
+      setTimeout(()=>navigate("/sign-in"), 2000)
+    }
+  }
 
-  const passwordValue = watch("password")
+
 
   return (
 
     <Form onSubmit={onSubmit}>
+      <AnimatePresence>
+        {alertBoxVisibility && <ErrorAlert alertData={alertData}></ErrorAlert>}
+      </AnimatePresence>
       <TextTop title="Cadastro" subtitle="Cadastre-se com os dados solicitados" />
       <Field
         label="email"

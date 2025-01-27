@@ -1,6 +1,6 @@
 import { Input } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Field } from "../../components/ui/field";
 import { PasswordInput } from "../../components/ui/password-input";
 import { useState } from "react";
@@ -9,12 +9,12 @@ import { AnimatePresence} from "framer-motion"
 import Form from "./Components/Form";
 import TextTop from "./Components/TextTop";
 import MyButton from "../MyButton";
-import ErrorAlert, { ErrorAlertProps, StatusErrorType } from "../ErrorAlert";
+import ErrorAlert, { StatusErrorType } from "../ErrorAlert";
 import { signIn, SignInUserData } from "../../config";
 
 import "./index.css"
 
-interface ErrorData {
+export interface ErrorData {
   title: string;
   description: string;
   status: StatusErrorType;
@@ -28,14 +28,21 @@ export default function SignIn() {
   const { register, handleSubmit, formState: { errors }, } = useForm<SignInUserData>();
   const onSubmit = handleSubmit(async(data) => submitCommands(data));
 
+  const navigate = useNavigate()
+
+  function changeAlertVisibility(){
+    setAlertBoxVisibility(true);
+    setTimeout(()=>{setAlertBoxVisibility(false)}, 5000);
+  }
+
   async function submitCommands(data: any){
     const response = await signIn(data);
     if(response.status !==200){
-      setAlertBoxVisibility(true);
-      setTimeout(()=>{setAlertBoxVisibility(false)}, 5000);
+      changeAlertVisibility()
       setAlertData({...alertData, title: "Atenção!", description: response?.data || "Erro ao fazer login"})
     }else{
       localStorage.setItem("school-spreadsheet", JSON.stringify({token: response.data}))
+      navigate("/home")
     }
   }
 
