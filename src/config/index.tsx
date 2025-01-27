@@ -11,11 +11,17 @@ export interface SignUpUserData {
   confirmPassword: string
 }
 
+const localStorageData = localStorage.getItem("school-spreadsheet")
+let token = ""
+if(localStorageData){
+  token = JSON.parse(localStorageData)?.token
+}
+
 const api = axios.create({
   baseURL: "http://localhost:5000",
   timeout: 7000,
   headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`
+    Authorization: `Bearer ${token}`
   }
 })
 

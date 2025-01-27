@@ -30,10 +30,11 @@ export default function SignIn() {
   async function submitCommands(data: any){
     const response = await signIn(data);
     if(response.status !==200){
-      console.log(response);
       setAlertBoxVisibility(true);
       setTimeout(()=>{setAlertBoxVisibility(false)}, 5000);
       setAlertData({...alertData, title: "Atenção!", description: response?.data || "Erro ao fazer login"})
+    }else{
+      localStorage.setItem("school-spreadsheet", JSON.stringify({token: response.data}))
     }
   }
 
