@@ -42,7 +42,7 @@ export default function Home({token, setToken}: TokenProps) {
       if (response?.status !== 200) {
         changeAlertVisibility()
         setAlertData({...alertData, description: response?.data || "Erro ao buscar alunos", status: "error", title: "Atenção" })
-        setTimeout(()=>navigate("/"), 3000)
+        setTimeout(()=>navigate("/sign-in"), 3000)
       }else{
         setStudentsData(response.data)
       }

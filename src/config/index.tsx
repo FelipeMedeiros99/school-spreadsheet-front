@@ -13,15 +13,15 @@ export interface SignUpUserData {
 }
 
 function validToken(token: string){
-  console.log("token inicial: ", token)
   if(!token){
     const localStorageData = localStorage.getItem("school-spreadsheet")
     if(localStorageData){
       token = JSON.parse(localStorageData)?.token
       return token;
     }
-  }
-  return "invalidToken"
+    return "Invalid_token"
+  } 
+  return token;
 
 }
 
@@ -51,6 +51,7 @@ export async function signUp(userData: SignUpUserData){
 
 export async function getStudents(page: number, token: string){
   token = validToken(token)
+  console.log("token final: ", token) 
   try{
     const response = await api.get(`/students?page=${page}&type=&filter=`, {
       headers: {
