@@ -21,9 +21,9 @@ const api = axios.create({
 
 export async function signIn(userData: SignInUserData){
   try{
-    const response = await api.post("/sign-in", userData)
-    console.log("estou aqui: ", response)
+    const response = await api.post("/sign-in", userData);
+    return response;
   }catch(e){
-    console.log("erro na request: ", (e as any)?.response)
+    return (e as any).response;
   }
 }
