@@ -1,28 +1,22 @@
-import { Input } from "@chakra-ui/react";
+import { Input, Alert } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-
 import { Field } from "../../components/ui/field";
 import { PasswordInput } from "../../components/ui/password-input";
 
 import Form from "./Components/Form";
 import TextTop from "./Components/TextTop";
 import MyButton from "../MyButton";
+import { signIn, SignInUserData } from "../../config";
 
 import "./index.css"
 
-
 export default function SignIn() {
 
-  interface FormValues {
-    email: string
-    password: string
-  }
+  const { register, handleSubmit, formState: { errors }, } = useForm<SignInUserData>()
+  const onSubmit = handleSubmit(async(data) => { await signIn(data) })
 
-  const { register, handleSubmit, formState: { errors }, } = useForm<FormValues>()
-
-  const onSubmit = handleSubmit((data) => { console.log(data) })
-
+  console.log(process.env.API_URL)
   return (
     <Form onSubmit={onSubmit} >
       <TextTop title="Login" subtitle="entre com seu email e senha" />

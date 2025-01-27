@@ -1,12 +1,3 @@
-import { faker } from '@faker-js/faker';
-
-interface Student {
-  id: number;
-  name: string;
-  age: number;
-  class: string
-}
-
 const students = [
   { id: 0, name: 'Angelica DuBuque', age: 8, class: '5E' },
   { id: 1, name: 'Ebony Schroeder', age: 12, class: '4C' },
