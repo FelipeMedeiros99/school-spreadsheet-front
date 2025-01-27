@@ -49,7 +49,7 @@ export default function SignIn() {
   return (
     <Form onSubmit={onSubmit} position={"relative"}>
       <AnimatePresence>
-        {alertBoxVisibility && <ErrorAlert alertData={alertData}></ErrorAlert>}
+        {alertBoxVisibility && <ErrorAlert alertData={alertData} initialPosition={-150}/>}
       </AnimatePresence>
 
       <TextTop title="Login" subtitle="entre com seu email e senha" />

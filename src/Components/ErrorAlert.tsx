@@ -8,17 +8,18 @@ export interface ErrorAlertProps extends BoxProps {
     title: string;
     description: string;
     status: StatusErrorType;
-  }
+  }, 
+  initialPosition: number
 }
 
-export default function ErrorAlert({alertData, ...props}: ErrorAlertProps) {
+export default function ErrorAlert({alertData, initialPosition, ...props}: ErrorAlertProps) {
   const {status, title, description} = alertData;
   return (
       
       <motion.div
-      initial={{ opacity: 0, y: -250}}
-      animate={{ opacity: 1, y: -150 }}
-      exit={{ opacity: 0, y: -250}}
+      initial={{ opacity: 0, y: initialPosition - 100}}
+      animate={{ opacity: 1, y: initialPosition }}
+      exit={{ opacity: 0, y: initialPosition - 100}}
       transition={{ duration: 0.5 }}
       >
         <Alert.Root zIndex={"5"} display={"flex"} alignItems={"center"} status={status} position={{base: "fixed", md:"absolute"}} padding={"10px 20px 10px 20px"} left={"50%"} transform={"translateX(-50%)"} width={"auto"} minW={"200px"} variant={"solid"} {...ProgressPropsProvider}>
