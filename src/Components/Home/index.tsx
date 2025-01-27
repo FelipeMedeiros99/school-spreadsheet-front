@@ -6,11 +6,18 @@ import StudentsTable from "./Components/StudentsTable";
 
 import "./index.css";
 import MyButton from "../MyButton";
+import { useState } from "react";
 
 
 
 export default function Home(){
+  const [studentsData, setStudentsData ] = useState([])
+  const [page, setPage] = useState(0)
   const navigate = useNavigate()
+
+  
+  
+  
   return(
     <VStack>
       <Header />

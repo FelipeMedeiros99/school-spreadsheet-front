@@ -42,3 +42,12 @@ export async function signUp(userData: SignUpUserData){
     return (e as any)?.response;
   }
 }
+
+export async function getStudents(page: number){
+  try{
+    const response = await api.get(`/students?page=${page}&type=&filter=`);
+    return response;
+  }catch(e){
+    return (e as any)?.response;
+  }
+}
