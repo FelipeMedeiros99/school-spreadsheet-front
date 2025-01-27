@@ -1,4 +1,5 @@
 import axios from "axios";
+import { config } from "dotenv";
 
 export interface SignInUserData {
   email:  string;
@@ -11,18 +12,23 @@ export interface SignUpUserData {
   confirmPassword: string
 }
 
-const localStorageData = localStorage.getItem("school-spreadsheet")
-let token = ""
-if(localStorageData){
-  token = JSON.parse(localStorageData)?.token
+function validToken(token: string){
+  console.log("token inicial: ", token)
+  if(!token){
+    const localStorageData = localStorage.getItem("school-spreadsheet")
+    if(localStorageData){
+      token = JSON.parse(localStorageData)?.token
+      return token;
+    }
+  }
+  return "invalidToken"
+
 }
+
 
 const api = axios.create({
   baseURL: "http://localhost:5000",
-  timeout: 7000,
-  headers: {
-    Authorization: `Bearer ${token}`
-  }
+  timeout: 7000
 })
 
 export async function signIn(userData: SignInUserData){
@@ -43,9 +49,14 @@ export async function signUp(userData: SignUpUserData){
   }
 }
 
-export async function getStudents(page: number){
+export async function getStudents(page: number, token: string){
+  token = validToken(token)
   try{
-    const response = await api.get(`/students?page=${page}&type=&filter=`);
+    const response = await api.get(`/students?page=${page}&type=&filter=`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
     return response;
   }catch(e){
     return (e as any)?.response;

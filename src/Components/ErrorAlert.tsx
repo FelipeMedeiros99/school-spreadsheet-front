@@ -22,7 +22,7 @@ export default function ErrorAlert({alertData, initialPosition, ...props}: Error
       exit={{ opacity: 0, y: initialPosition - 100}}
       transition={{ duration: 0.5 }}
       >
-        <Alert.Root zIndex={"5"} display={"flex"} alignItems={"center"} status={status} position={{base: "fixed", md:"absolute"}} padding={"10px 20px 10px 20px"} left={"50%"} transform={"translateX(-50%)"} width={"auto"} minW={"200px"} variant={"solid"} {...ProgressPropsProvider}>
+        <Alert.Root zIndex={"5"} display={"flex"} alignItems={"center"} status={status} position={{base: "fixed", md:"absolute"}} padding={"10px 20px 10px 20px"} left={"50%"} transform={"translateX(-50%)"} width={"auto"} minW={"200px"} variant={"solid"} {...props}>
           <Alert.Indicator />
           <Alert.Content>
             <Alert.Title fontWeight={"700"}>{title}</Alert.Title>

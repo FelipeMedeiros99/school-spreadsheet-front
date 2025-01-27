@@ -13,6 +13,7 @@ import ErrorAlert, { StatusErrorType } from "../ErrorAlert";
 import { signIn, SignInUserData } from "../../config";
 
 import "./index.css"
+import { TokenProps } from "@/App";
 
 export interface ErrorData {
   title: string;
@@ -20,7 +21,8 @@ export interface ErrorData {
   status: StatusErrorType;
 }
 
-export default function SignIn() {
+
+export default function SignIn({token , setToken}: TokenProps) {
 
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
   const [alertData, setAlertData] = useState <ErrorData>({title: "", description: "", status: "error"})
@@ -41,6 +43,7 @@ export default function SignIn() {
       changeAlertVisibility()
       setAlertData({...alertData, title: "Atenção!", description: response?.data || "Erro ao fazer login"})
     }else{
+      setToken(response.data)
       localStorage.setItem("school-spreadsheet", JSON.stringify({token: response.data}))
       navigate("/home")
     }
