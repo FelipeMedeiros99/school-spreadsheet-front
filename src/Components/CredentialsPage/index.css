@@ -1,3 +1,11 @@
+.passwordInput svg{
+  color: black;
+}
+
+.passwordInput button:hover{
+  background-color: #d3cdcd;
+}
+
 a:hover{
   text-decoration: underline;
 }

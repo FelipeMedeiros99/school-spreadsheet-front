@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Field } from "../../components/ui/field";
 import { PasswordInput } from "../../components/ui/password-input";
 import { useState } from "react";
+import { AnimatePresence} from "framer-motion"
 
 import Form from "./Components/Form";
 import TextTop from "./Components/TextTop";
@@ -40,7 +41,9 @@ export default function SignIn() {
 
   return (
     <Form onSubmit={onSubmit} position={"relative"}>
-      {alertBoxVisibility && <ErrorAlert alertData={alertData}></ErrorAlert>}
+      <AnimatePresence>
+        {alertBoxVisibility && <ErrorAlert alertData={alertData}></ErrorAlert>}
+      </AnimatePresence>
 
       <TextTop title="Login" subtitle="entre com seu email e senha" />
       <Field
@@ -64,11 +67,12 @@ export default function SignIn() {
       
 
       <Field
+        className="passwordInput"
         label="senha"
         invalid={!!errors.password}
         errorText={errors.password?.message}
       >
-        <PasswordInput
+        <PasswordInput 
           variant="subtle"
           backgroundColor={"#EEEEEE"}
           {...register("password", {

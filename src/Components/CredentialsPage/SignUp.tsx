@@ -48,6 +48,7 @@ export default function SignUp() {
       </Field>
 
       <Field
+        className="passwordInput"
         label="senha"
         invalid={!!errors.password}
         errorText={errors.password?.message}
@@ -66,6 +67,7 @@ export default function SignUp() {
       </Field>
 
       <Field
+        className="passwordInput"
         label="confirmar senha"
         invalid={!!errors.confirmPassword}
         errorText={errors.confirmPassword?.message}
