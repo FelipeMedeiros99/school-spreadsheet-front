@@ -29,7 +29,7 @@ export interface PagesData{
 
 // TODO: ADD LOADING SPIN
 // TODO: ADD SEARCH INPUT
-// TODO: EDIT STUDENT ROUTER
+
 export default function Home({
   credentialUser, 
   setCredentialUser, 

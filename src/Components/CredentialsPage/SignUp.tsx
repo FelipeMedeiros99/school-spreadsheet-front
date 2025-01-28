@@ -1,6 +1,7 @@
 import { Input } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { Oval} from "react-loader-spinner"
 
 import { Field } from "../../components/ui/field";
 import { PasswordInput } from "../../components/ui/password-input";
@@ -34,6 +35,7 @@ export interface CredentialSignupProps{
 export default function SignUp({alertMessageData, setAlertMessageData, changeAlertVisibility}: CredentialSignupProps) {
 
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
+  const [spinnerAtive, setSpinnerAtive] = useState(false)
   const navigate = useNavigate()
   
   const { register, handleSubmit, formState: { errors }, watch } = useForm<FormValues>()
@@ -42,16 +44,19 @@ export default function SignUp({alertMessageData, setAlertMessageData, changeAle
 
 
   async function submitCommands(data: any) {
+    setSpinnerAtive(true)
     const response = await signUp(data);
-    console.log(response)
     if (response.status !== 201) {
       setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao fazer cadastro", status: "error" })
       changeAlertVisibility(setAlertBoxVisibility)
+      setSpinnerAtive(false)
     } else {
       setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: "Cadastro feito com sucesso!", status: "success" })
       changeAlertVisibility(setAlertBoxVisibility)
       setTimeout(()=>navigate("/sign-in"), 2000)
+
     }
+    setSpinnerAtive(false)
   }
 
 
@@ -69,6 +74,7 @@ export default function SignUp({alertMessageData, setAlertMessageData, changeAle
         errorText={errors.email?.message}
       >
         <Input
+          disabled={spinnerAtive}
           variant="subtle"
           backgroundColor={"#EEEEEE"}
           {...register("email", {
@@ -88,6 +94,7 @@ export default function SignUp({alertMessageData, setAlertMessageData, changeAle
         errorText={errors.password?.message}
       >
         <PasswordInput
+          disabled={spinnerAtive}
           variant="subtle"
           backgroundColor={"#EEEEEE"}
           {...register("password", {
@@ -107,6 +114,7 @@ export default function SignUp({alertMessageData, setAlertMessageData, changeAle
         errorText={errors.confirmPassword?.message}
       >
         <PasswordInput
+          disabled={spinnerAtive}
           variant="subtle"
           backgroundColor={"#EEEEEE"}
           {...register("confirmPassword", {
@@ -117,9 +125,20 @@ export default function SignUp({alertMessageData, setAlertMessageData, changeAle
           })}
         />
       </Field>
+      
 
-      <MyButton type="submit" w={"100%"} >Entrar</MyButton>
-
+      <MyButton disabled={spinnerAtive} type="submit" w={"100%"} position={"relative"}>{spinnerAtive? 
+        <Oval
+        visible={true}
+        height="80"
+        width="80"
+        color="white"
+        ariaLabel="oval-loading"
+        wrapperStyle={{}}
+        wrapperClass=""
+        />
+        :"Entrar"}
+      </MyButton>
 
       <Link to={"/sign-in"}>Já possui cadastro? Faça login!</Link>
 

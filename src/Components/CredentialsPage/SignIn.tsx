@@ -5,6 +5,7 @@ import { Field } from "../../components/ui/field";
 import { PasswordInput } from "../../components/ui/password-input";
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion"
+import { Oval } from "react-loader-spinner"
 
 import Form from "./Components/Form";
 import TextTop from "./Components/TextTop";
@@ -36,9 +37,10 @@ export default function SignIn({
   alertMessageData,
   setAlertMessageData,
   changeAlertVisibility,
-  }: CredentialUserProps) {
+}: CredentialUserProps) {
 
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
+  const [spinnerAtive, setSpinnerAtive] = useState(false)
 
   const { register, handleSubmit, formState: { errors }, } = useForm<SignInUserData>();
   const onSubmit = handleSubmit(async (data) => submitCommands(data));
@@ -46,6 +48,7 @@ export default function SignIn({
   const navigate = useNavigate()
 
   async function submitCommands(data: any) {
+    setSpinnerAtive(true)
     const response = await signIn(data);
     if (response.status !== 200) {
       changeAlertVisibility(setAlertBoxVisibility)
@@ -55,6 +58,7 @@ export default function SignIn({
       localStorage.setItem("school-spreadsheet", JSON.stringify({ credentialUser: response.data }))
       navigate("/home")
     }
+    setSpinnerAtive(false)
   }
 
   return (
@@ -70,6 +74,7 @@ export default function SignIn({
         errorText={errors.email?.message}
       >
         <Input
+          disabled={spinnerAtive}
           variant="subtle"
           backgroundColor={"#EEEEEE"}
           type="email"
@@ -91,6 +96,7 @@ export default function SignIn({
         errorText={errors.password?.message}
       >
         <PasswordInput
+          disabled={spinnerAtive}
           variant="subtle"
           backgroundColor={"#EEEEEE"}
           {...register("password", {
@@ -103,7 +109,19 @@ export default function SignIn({
         />
       </Field>
 
-      <MyButton type="submit" w={"100%"} >Entrar</MyButton>
+      <MyButton disabled={spinnerAtive} type="submit" w={"100%"} >{
+        spinnerAtive ?
+          <Oval
+            visible={true}
+            height="80"
+            width="80"
+            color="white"
+            ariaLabel="oval-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+          /> :
+          "Entrar"
+      }</MyButton>
 
       <Link to={"/sign-up"}>Não possui cadastro? Cadastre-se!</Link>
     </Form>
