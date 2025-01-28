@@ -1,11 +1,38 @@
-import { Box, Table, For, VStack } from "@chakra-ui/react";
+import { Box, Table, For, VStack, HStack } from "@chakra-ui/react";
 import { FaRegTrashAlt } from "react-icons/fa";
 
+import {
+  PaginationItems,
+  PaginationNextTrigger,
+  PaginationPrevTrigger,
+  PaginationRoot,
+} from "../../../components/ui/pagination"
+// /components/ui/pagination
 
-import students from "../../../data";
-import { StudentData } from "..";
+import { PagesData, StudentData } from "..";
 
-export default function StudentsTable({studentData}: {studentData: StudentData[]}) {
+interface StudentsTableProps{
+  studentData: StudentData[];
+  setStudentData: (newStudentData: StudentData[])=>void;
+  pagesData: PagesData;
+  setPagesData: (newPage: PagesData)=>void;
+}
+
+
+//TODO: valid with empty studentData
+
+export default function StudentsTable({studentData, setStudentData, pagesData, setPagesData}: StudentsTableProps) {
+  console.log("pagesData:", pagesData)
+
+  function changePage(operation: "next" | "prev"){
+    if(operation==="next"){
+      setPagesData({...pagesData, page: pagesData.page+1})
+    }
+    if(operation==="prev"){
+      setPagesData({...pagesData, page: pagesData.page-1})
+    }
+
+  }
   return (
     <VStack padding={{ base: "0px 20px 20px 20px", md: "0px 66px 43px 66px" }} width={"100%"}>
       <Table.Root width={"100%"}>
@@ -18,7 +45,6 @@ export default function StudentsTable({studentData}: {studentData: StudentData[]
             </For>
           </Table.Row>
         </Table.Header>
-
         <Table.Body>
           {studentData.map((student) => (
             <Table.Row _hover={{bgColor: "#f7f7f7"}} key={student.id} bgColor={"white"} color={"black"} alignItems={"center"} justifyContent={"space-around"} borderBottom={"solid 1px #0000001f"}>
@@ -34,10 +60,17 @@ export default function StudentsTable({studentData}: {studentData: StudentData[]
               </Table.Cell>
             </Table.Row>
           ))}
-
         </Table.Body>
-
       </Table.Root>
+
+      {/* <PaginationRoot count={items.length * 5} pageSize={5} page={1}> */}
+      <PaginationRoot count={10} pageSize={2} page={pagesData.page+1}>
+        <HStack wrap="wrap" >
+          <PaginationPrevTrigger onClick={()=>changePage("prev")} color="#D64B14"/>
+          <PaginationItems color="#D64B14"/>
+          <PaginationNextTrigger onClick={()=>changePage("next")} color="#D64B14"/>
+        </HStack>
+      </PaginationRoot>
 
     </VStack>
   )

@@ -8,7 +8,7 @@ import StudentsTable from "./Components/StudentsTable";
 
 import "./index.css";
 import MyButton from "../MyButton";
-import { getStudents } from "../../config";
+import { getQtStudents, getStudents } from "../../config";
 import { ErrorData } from "../CredentialsPage/SignIn";
 import ErrorAlert from "../ErrorAlert";
 import { TokenProps } from "@/App";
@@ -22,12 +22,16 @@ export interface StudentData{
   userId: number
 }
 
+export interface PagesData{
+  qtPage: number;
+  page: number
+}
 
 export default function Home({token, setToken}: TokenProps) {
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
   const [alertData, setAlertData] = useState<ErrorData>({ title: "", description: "", status: "error" })
   const [studentsData, setStudentsData] = useState<StudentData[]>([])
-  const [page, setPage] = useState(0)
+  const [pagesData, setPagesData] = useState<PagesData>({qtPage: 0, page: 0})
   const navigate = useNavigate()
 
   function changeAlertVisibility() {
@@ -38,13 +42,29 @@ export default function Home({token, setToken}: TokenProps) {
 
   useEffect(() => {
     (async () => {
-      const response = await getStudents(page, token)
+      const response = await getStudents(pagesData.page, token)
       if (response?.status !== 200) {
         changeAlertVisibility()
         setAlertData({...alertData, description: response?.data || "Erro ao buscar alunos", status: "error", title: "Atenção" })
         setTimeout(()=>navigate("/sign-in"), 3000)
       }else{
         setStudentsData(response.data)
+      }
+    })()
+  }, [])
+
+  useEffect(()=>{
+    (async()=>{
+      const response = await getQtStudents(token)
+      if (response?.status !== 200) {
+        changeAlertVisibility()
+        setAlertData({...alertData, description: response?.data || "Erro ao buscar quantidade de alunos", status: "error", title: "Atenção" })
+        setTimeout(()=>navigate("/sign-in"), 3000)
+      }else{
+        setPagesData({
+          ...pagesData, 
+          qtPage: Math.ceil(response?.data?.quantityStudents/10)
+        })
       }
     })()
   }, [])
@@ -61,7 +81,7 @@ export default function Home({token, setToken}: TokenProps) {
         <MyButton onClick={() => navigate("/new-register")}>Criar Registro</MyButton>
       </Box>
 
-      <StudentsTable studentData={studentsData}/>
+      <StudentsTable studentData={studentsData} setStudentData={setStudentsData} pagesData={pagesData} setPagesData={setPagesData}/>
 
     </ VStack>
   )

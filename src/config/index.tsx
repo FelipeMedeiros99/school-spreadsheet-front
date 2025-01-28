@@ -50,9 +50,23 @@ export async function signUp(userData: SignUpUserData){
 
 export async function getStudents(page: number, token: string){
   token = validToken(token)
-  console.log("token final: ", token) 
   try{
     const response = await api.get(`/students?page=${page}&type=&filter=`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return response;
+  }catch(e){
+    return (e as any)?.response;
+  }
+}
+
+// TODO
+export async function getQtStudents(token: string){
+  token = validToken(token)
+  try{
+    const response = await api.get(`/students/count?type=""&filter=""`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

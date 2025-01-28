@@ -65,6 +65,8 @@ export default function SignIn({token , setToken}: TokenProps) {
           variant="subtle"
           backgroundColor={"#EEEEEE"}
           type="email"
+          //FIXME 
+          value={"felipe@gmail.com"}
           {...register("email", {
             required: "email é obrigatório",
             pattern: {
@@ -85,6 +87,8 @@ export default function SignIn({token , setToken}: TokenProps) {
         <PasswordInput 
           variant="subtle"
           backgroundColor={"#EEEEEE"}
+          //FIXME
+          value="123456"
           {...register("password", {
             required: "senha é obrigatória",
             minLength: {
