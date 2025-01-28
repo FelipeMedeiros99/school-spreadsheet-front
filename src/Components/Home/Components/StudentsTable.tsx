@@ -80,7 +80,7 @@ export default function StudentsTable({
       }
       setStudentData(response.data)
     })()
-  }, [pagesData, credentialUser, alertMessageData, changeAlertVisibility, navigate, setAlertMessageData, setStudentData])
+  }, [pagesData])
 
 
   useEffect(() => {
@@ -104,7 +104,7 @@ export default function StudentsTable({
       }
       
     })()
-  }, [alertMessageData, changeAlertVisibility, credentialUser, navigate, pagesData, setAlertMessageData, setPagesData])
+  }, [])
 
   return (
     <VStack padding={{ base: "0px 20px 20px 20px", md: "0px 66px 43px 66px" }} width={"100%"}>

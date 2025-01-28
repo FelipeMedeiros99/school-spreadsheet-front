@@ -64,10 +64,10 @@ export async function signUp(userData: SignUpUserData){
   }
 }
 
-export async function getStudents(page: number, credentialUser: CredentialUser){
+export async function getStudents(page: number = 1, credentialUser: CredentialUser,  filter: string = ""){
   credentialUser = validToken(credentialUser)
   try{
-    const response = await api.get(`/students?page=${page-1}&type=&filter=`, {
+    const response = await api.get(`/students?page=${page-1}&type=name&filter=${filter}`, {
       headers: {
         Authorization: `Bearer ${credentialUser.token}`
       }
@@ -78,10 +78,10 @@ export async function getStudents(page: number, credentialUser: CredentialUser){
   }
 }
 
-export async function getQtStudents(credentialUSer: CredentialUser){
+export async function getQtStudents(credentialUSer: CredentialUser, filter: string = ""){
   credentialUSer = validToken(credentialUSer)
   try{
-    const response = await api.get(`/students/count?type=""&filter=""`, {
+    const response = await api.get(`/students/count?type="name"&filter=${filter}`, {
       headers: {
         Authorization: `Bearer ${credentialUSer.token}`
       }
