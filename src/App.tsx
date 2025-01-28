@@ -30,6 +30,13 @@ export default function App() {
     setTimeout(()=>{setAlertBoxVisibility(false)}, 5000);
   }
 
+  function updateCredentialUser(credential: CredentialUser){
+    setCredentialUser(credential)
+  }
+
+  function updateAlertMessage(alertData: AlertMessageData){
+    setAlertMessageData(alertData)
+  }
 
   return (
     <Router>
@@ -39,9 +46,9 @@ export default function App() {
         <Route path="/sign-in" element={
           <SignIn 
             alertMessageData={alertMessageData} 
-            setAlertMessageData={setAlertMessageData} 
+            setAlertMessageData={updateAlertMessage} 
             credentialUser={credentialUser} 
-            setCredentialUser={setCredentialUser} 
+            setCredentialUser={updateCredentialUser} 
             changeAlertVisibility={changeAlertVisibility}
           />} 
         />
@@ -49,7 +56,7 @@ export default function App() {
         <Route path="/sign-up" element={
           <SignUp 
             alertMessageData={alertMessageData} 
-            setAlertMessageData={setAlertMessageData} 
+            setAlertMessageData={updateAlertMessage} 
             changeAlertVisibility={changeAlertVisibility}
             />} 
           />
@@ -57,9 +64,9 @@ export default function App() {
         <Route path="/home" element={
           <Home 
             credentialUser={credentialUser} 
-            setCredentialUser={setCredentialUser} 
+            setCredentialUser={updateCredentialUser} 
             alertMessageData={alertMessageData} 
-            setAlertMessageData={setAlertMessageData}
+            setAlertMessageData={updateAlertMessage}
             changeAlertVisibility={changeAlertVisibility} 
             setStudentDataEdit={setStudentDataEdit}
             />} 
@@ -68,9 +75,9 @@ export default function App() {
         <Route path="/new-register" element={
           <RegisterStudent 
             credentialUser={credentialUser} 
-            setCredentialUser={setCredentialUser} 
+            setCredentialUser={updateCredentialUser} 
             alertMessageData={alertMessageData} 
-            setAlertMessageData={setAlertMessageData} 
+            setAlertMessageData={updateAlertMessage} 
             changeAlertVisibility={changeAlertVisibility}
             />} 
           />
@@ -80,9 +87,9 @@ export default function App() {
         <Route path="/edit-student" element={
           <EditStudent 
             credentialUser={credentialUser} 
-            setCredentialUser={setCredentialUser} 
+            setCredentialUser={updateCredentialUser} 
             alertMessageData={alertMessageData} 
-            setAlertMessageData={setAlertMessageData} 
+            setAlertMessageData={updateAlertMessage} 
             changeAlertVisibility={changeAlertVisibility}
             studentData={studentDataEdit}
             />} 

@@ -13,8 +13,7 @@ import {
 
 import { PagesData, StudentData } from "..";
 import ErrorAlert from "../../ErrorAlert";
-import { deleteStudentApi, editStudentApi, getQtStudents, getStudents } from "../../../config";
-import { ErrorData } from "@/Components/CredentialsPage/SignIn";
+import { deleteStudentApi, getQtStudents, getStudents } from "../../../config";
 import { AlertMessageData, CredentialUser } from "../../../App";
 import { StudentDataEdit } from "../../../Components/EditStudent";
 
@@ -52,8 +51,8 @@ export default function StudentsTable({
 
   async function deleteStudent(id: number) {
     const response = await deleteStudentApi(credentialUser, id)
-    if (response.status !== 200) {
-      if (response.data !== "Token expirou, faça login novamente!") {
+    if (response?.status !== 200) {
+      if (response?.data !== "Token expirou, faça login novamente!") {
         changeAlertVisibility(setAlertBoxVisibility)
         setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao deletar estudante" })
       }
@@ -74,14 +73,11 @@ export default function StudentsTable({
     navigate("/edit-student")
   }
 
-
-
-
   useEffect(() => {
     (async () => {
       const response = await getStudents(pagesData.page, credentialUser)
-      if (response.status !== 200) {
-        if (response.data !== "Token expirou, faça login novamente!") {
+      if (response?.status !== 200) {
+        if (response?.data !== "Token expirou, faça login novamente!") {
           changeAlertVisibility(setAlertBoxVisibility)
           setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
         }
@@ -98,8 +94,9 @@ export default function StudentsTable({
   useEffect(() => {
     (async () => {
       const response = await getQtStudents(credentialUser)
+      console.log(response)
       if (response?.status !== 200) {
-        if (response.data !== "Token expirou, faça login novamente!") {
+        if (response?.data !== "Token expirou, faça login novamente!") {
           changeAlertVisibility(setAlertBoxVisibility)
           setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
         }
@@ -131,11 +128,11 @@ export default function StudentsTable({
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {studentData.map((student) => (
+          {studentData?.map((student) => (
             <Table.Row _hover={{ bgColor: "#f7f7f7" }} key={student?.id} bgColor={"white"} color={"black"} alignItems={"center"} justifyContent={"space-around"} borderBottom={"solid 1px #0000001f"}>
               <For each={["name", "age", "class"]}>
                 {(key) => (
-                  <Table.Cell key={key} paddingLeft={{ base: "10px", md: key === "name" ? "30px" : "10px", }} textAlign={key === "name" ? "left" : "center"}>{student[key]}</Table.Cell>
+                  <Table.Cell key={key} paddingLeft={{ base: "10px", md: key === "name" ? "30px" : "10px", }} textAlign={key === "name" ? "left" : "center"}>{student?.[key]}</Table.Cell>
                 )}
               </For>
               
@@ -146,7 +143,7 @@ export default function StudentsTable({
               </Table.Cell>
 
               <Table.Cell paddingLeft={"10px"} textAlign={"center"}>
-                <Box width={"100%"} height={"100%"} display={"flex"} alignItems={"center"} justifyContent={"center"} _hover={{ cursor: "pointer" }} onClick={async () => { await deleteStudent(student.id) }}>
+                <Box width={"100%"} height={"100%"} display={"flex"} alignItems={"center"} justifyContent={"center"} _hover={{ cursor: "pointer" }} onClick={async () => { await deleteStudent(student?.id) }}>
                   <FaRegTrashAlt display={"flex"}/>
                 </Box>
               </Table.Cell>

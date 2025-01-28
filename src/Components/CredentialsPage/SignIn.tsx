@@ -50,7 +50,7 @@ export default function SignIn({
   async function submitCommands(data: any) {
     setSpinnerAtive(true)
     const response = await signIn(data);
-    if (response.status !== 200) {
+    if (response?.status !== 200) {
       changeAlertVisibility(setAlertBoxVisibility)
       setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao fazer login" })
     } else {
@@ -70,8 +70,8 @@ export default function SignIn({
       <TextTop title="Login" subtitle="entre com seu email e senha" />
       <Field
         label="email"
-        invalid={!!errors.email}
-        errorText={errors.email?.message}
+        invalid={!!errors?.email}
+        errorText={errors?.email?.message}
       >
         <Input
           disabled={spinnerAtive}

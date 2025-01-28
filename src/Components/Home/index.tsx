@@ -9,7 +9,7 @@ import StudentsTable from "./Components/StudentsTable";
 import "./index.css";
 import MyButton from "../MyButton";
 import { getQtStudents, getStudents } from "../../config";
-import { CredentialUserProps, ErrorData } from "../CredentialsPage/SignIn";
+import { CredentialUserProps } from "../CredentialsPage/SignIn";
 import ErrorAlert from "../ErrorAlert";
 import { StudentDataEdit } from "../EditStudent";
 
@@ -27,7 +27,6 @@ export interface PagesData{
   page: number
 }
 
-// TODO: ADD LOADING SPIN
 // TODO: ADD SEARCH INPUT
 
 export default function Home({
@@ -48,7 +47,13 @@ export default function Home({
   
   useEffect(() => {
     (async () => {
-      const response = await getStudents(pagesData.page, credentialUser)
+      const response = await getStudents(pagesData?.page, credentialUser)
+      if(response === undefined){
+        changeAlertVisibility(setAlertBoxVisibility)
+        setAlertMessageData({...alertMessageData, description: "Erro ao conectar com o servidor", status: "error", title: "Atenção" })
+        setTimeout(()=>navigate("/sign-in"), 3000)
+        return
+      }
       if (response?.status !== 200) {
         changeAlertVisibility(setAlertBoxVisibility)
         setAlertMessageData({...alertMessageData, description: response?.data || "Erro ao buscar alunos", status: "error", title: "Atenção" })
@@ -62,6 +67,10 @@ export default function Home({
   useEffect(()=>{
     (async()=>{
       const response = await getQtStudents(credentialUser)
+      if(response === undefined){
+        setTimeout(()=>navigate("/sign-in"), 3000)
+        return
+      }
       if (response?.status !== 200) {
         changeAlertVisibility(setAlertBoxVisibility)
         setAlertMessageData({...alertMessageData, description: response?.data || "Erro ao buscar quantidade de alunos", status: "error", title: "Atenção" })
