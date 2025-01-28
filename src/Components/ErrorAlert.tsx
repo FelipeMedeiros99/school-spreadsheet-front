@@ -4,7 +4,7 @@ import {CloseButton} from "../components/ui/close-button";
 export type StatusErrorType = "error" | "info" | "warning" | "success" | "neutral"
 
 export interface ErrorAlertProps extends BoxProps {
-  alertData: {
+  alertMessageData: {
     title: string;
     description: string;
     status: StatusErrorType;
@@ -13,8 +13,8 @@ export interface ErrorAlertProps extends BoxProps {
   setVisibility: (newVisibility: boolean)=>void;
 }
 
-export default function ErrorAlert({alertData, initialPosition, setVisibility, ...props}: ErrorAlertProps) {
-  const {status, title, description} = alertData;
+export default function ErrorAlert({alertMessageData, initialPosition, setVisibility, ...props}: ErrorAlertProps) {
+  const {status, title, description} = alertMessageData;
   return (
       
       <motion.div
@@ -23,10 +23,23 @@ export default function ErrorAlert({alertData, initialPosition, setVisibility, .
       exit={{ opacity: 0, y: initialPosition - 100}}
       transition={{ duration: 0.7 }}
       style={{
-        zIndex: "6"
+        zIndex: "6",
       }}
       >
-        <Alert.Root  display={"flex"} alignItems={"center"} status={status} position={{base: "fixed", md:"absolute"}} padding={"10px 20px 10px 20px"} left={"50%"} transform={"translateX(-50%)"} width={"auto"} minW={"200px"} variant={"solid"} {...props}>
+        <Alert.Root 
+          minW={{base: "auto", md: "300px"}} 
+          display={"flex"} 
+          alignItems={"center"} 
+          status={status} 
+          position={{base: "fixed", md:"absolute"}} 
+          padding={"10px 20px 10px 20px"} 
+          left={"50%"} 
+          transform={"translateX(-50%)"} 
+          width={"auto"} 
+          variant={"solid"} 
+          {...props}
+          >
+
           <Alert.Indicator />
           <Alert.Content>
             <Alert.Title fontWeight={"700"}>{title}</Alert.Title>

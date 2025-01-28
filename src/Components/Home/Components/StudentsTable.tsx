@@ -16,7 +16,7 @@ import { PagesData, StudentData } from "..";
 import ErrorAlert from "../../ErrorAlert";
 import { deleteStudentApi, getQtStudents, getStudents } from "../../../config";
 import { ErrorData } from "@/Components/CredentialsPage/SignIn";
-import { CredentialUser } from "../../../App";
+import { AlertMessageData, CredentialUser } from "../../../App";
 
 
 interface StudentsTableProps {
@@ -24,30 +24,27 @@ interface StudentsTableProps {
   setStudentData: (newStudentData: StudentData[]) => void;
   pagesData: PagesData;
   setPagesData: (newPage: PagesData) => void;
-  credentialUser: CredentialUser
+  credentialUser: CredentialUser;
+  alertMessageData: AlertMessageData;
+  setAlertMessageData: (newAlert: AlertMessageData)=>void;
+  changeAlertVisibility: any
 }
 
 
 //TODO: valid with empty studentData
 
-export default function StudentsTable({ studentData, setStudentData, pagesData, setPagesData, credentialUser }: StudentsTableProps) {
+export default function StudentsTable({ studentData, setStudentData, pagesData, setPagesData, credentialUser, alertMessageData, setAlertMessageData, changeAlertVisibility }: StudentsTableProps) {
 
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
-  const [alertData, setAlertData] = useState<ErrorData>({ title: "", description: "", status: "error" })
-  const [deleteEffectKey, setDeleteEffectKey ] = useState<boolean>(true)
-  const navigate = useNavigate()
-
-  function changeAlertVisibility() {
-    setAlertBoxVisibility(true);
-    setTimeout(() => { setAlertBoxVisibility(false) }, 5000);
-  }
+  const [deleteEffectKey, setDeleteEffectKey ] = useState<boolean>(true);
+  const navigate = useNavigate();
 
   async function deleteStudent(id: number) {
     const response = await deleteStudentApi(credentialUser, id)
     if (response.status !== 200) {
       if(response.data !== "Token expirou, faça login novamente!"){
-        changeAlertVisibility()
-        setAlertData({ ...alertData, title: "Atenção!", description: response?.data || "Erro ao deletar estudante" })
+        changeAlertVisibility(setAlertBoxVisibility)
+        setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao deletar estudante" })
       }
       if (response?.data === "Token expirou, faça login novamente!") {
         setTimeout(() => navigate("/sign-in"), 3000)
@@ -56,8 +53,8 @@ export default function StudentsTable({ studentData, setStudentData, pagesData, 
     }
     setPagesData({...pagesData})
     setDeleteEffectKey(!deleteEffectKey)
-    changeAlertVisibility()
-    setAlertData({ ...alertData, title: "Atenção!", description: "Estudante deletado com sucesso", status: "success"})
+    changeAlertVisibility(setAlertBoxVisibility)
+    setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: "Estudante deletado com sucesso", status: "success"})
     
   }
 
@@ -67,8 +64,8 @@ export default function StudentsTable({ studentData, setStudentData, pagesData, 
       const response = await getStudents(pagesData.page, credentialUser)
       if (response.status !== 200) {
         if(response.data !== "Token expirou, faça login novamente!"){
-          changeAlertVisibility()
-          setAlertData({ ...alertData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
+          changeAlertVisibility(setAlertBoxVisibility)
+          setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
         }
         if (response?.data === "Token expirou, faça login novamente!") {
           setTimeout(() => navigate("/sign-in"), 3000)
@@ -85,8 +82,8 @@ export default function StudentsTable({ studentData, setStudentData, pagesData, 
       const response = await getQtStudents(credentialUser)
       if (response?.status !== 200) {
         if(response.data !== "Token expirou, faça login novamente!"){
-          changeAlertVisibility()
-          setAlertData({ ...alertData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
+          changeAlertVisibility(setAlertBoxVisibility)
+          setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
         }
         setTimeout(()=>navigate("/sign-in"), 3000)
       }else{
@@ -102,7 +99,7 @@ export default function StudentsTable({ studentData, setStudentData, pagesData, 
   return (
     <VStack padding={{ base: "0px 20px 20px 20px", md: "0px 66px 43px 66px" }} width={"100%"}>
       <AnimatePresence>
-        {alertBoxVisibility && <ErrorAlert alertData={alertData} initialPosition={-100} setVisibility={setAlertBoxVisibility}/>}
+        {alertBoxVisibility && <ErrorAlert alertMessageData={alertMessageData} initialPosition={-100} setVisibility={setAlertBoxVisibility}/>}
       </AnimatePresence>
 
       <Table.Root width={"100%"}>

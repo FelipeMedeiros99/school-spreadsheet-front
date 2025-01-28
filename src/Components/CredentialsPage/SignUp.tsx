@@ -15,6 +15,7 @@ import { useState } from "react";
 import ErrorAlert from "../ErrorAlert";
 import { AnimatePresence } from "framer-motion";
 import { signUp } from "../../config";
+import { AlertMessageData } from "../../App";
 
 interface FormValues {
   email: string
@@ -22,10 +23,17 @@ interface FormValues {
   confirmPassword: string
 }
 
-export default function SignUp() {
+export interface CredentialSignupProps{
+  alertMessageData: AlertMessageData;
+  setAlertMessageData: (newAlert: AlertMessageData)=>void;
+  changeAlertVisibility: any
+}
+
+
+
+export default function SignUp({alertMessageData, setAlertMessageData, changeAlertVisibility}: CredentialSignupProps) {
 
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
-  const [alertData, setAlertData] = useState<ErrorData>({ title: "", description: "", status: "error" })
   const navigate = useNavigate()
   
   const { register, handleSubmit, formState: { errors }, watch } = useForm<FormValues>()
@@ -33,20 +41,15 @@ export default function SignUp() {
   const passwordValue = watch("password")
 
 
-  function changeAlertVisibility(){
-    setAlertBoxVisibility(true);
-    setTimeout(()=>{setAlertBoxVisibility(false)}, 5000);
-  }
-
   async function submitCommands(data: any) {
     const response = await signUp(data);
     console.log(response)
     if (response.status !== 201) {
-      setAlertData({ ...alertData, title: "Atenção!", description: response?.data || "Erro ao fazer cadastro", status: "error" })
-      changeAlertVisibility()
+      setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao fazer cadastro", status: "error" })
+      changeAlertVisibility(setAlertBoxVisibility)
     } else {
-      setAlertData({ ...alertData, title: "Atenção!", description: "Cadastro feito com sucesso!", status: "success" })
-      changeAlertVisibility()
+      setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: "Cadastro feito com sucesso!", status: "success" })
+      changeAlertVisibility(setAlertBoxVisibility)
       setTimeout(()=>navigate("/sign-in"), 2000)
     }
   }
@@ -57,7 +60,7 @@ export default function SignUp() {
 
     <Form onSubmit={onSubmit}>
       <AnimatePresence>
-        {alertBoxVisibility && <ErrorAlert alertData={alertData} initialPosition={-150} setVisibility={setAlertBoxVisibility}/>}
+        {alertBoxVisibility && <ErrorAlert alertMessageData={alertMessageData} initialPosition={-150} setVisibility={setAlertBoxVisibility}/>}
       </AnimatePresence>
       <TextTop title="Cadastro" subtitle="Cadastre-se com os dados solicitados" />
       <Field

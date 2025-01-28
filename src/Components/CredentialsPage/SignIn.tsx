@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Field } from "../../components/ui/field";
 import { PasswordInput } from "../../components/ui/password-input";
 import { useState } from "react";
-import { AnimatePresence} from "framer-motion"
+import { AnimatePresence } from "framer-motion"
 
 import Form from "./Components/Form";
 import TextTop from "./Components/TextTop";
@@ -13,7 +13,7 @@ import ErrorAlert, { StatusErrorType } from "../ErrorAlert";
 import { signIn, SignInUserData } from "../../config";
 
 import "./index.css"
-import { CredentialUser } from "../../App";
+import { AlertMessageData, CredentialUser } from "../../App";
 
 export interface ErrorData {
   title: string;
@@ -21,35 +21,38 @@ export interface ErrorData {
   status: StatusErrorType;
 }
 
-export interface CredentialUserProps{
+export interface CredentialUserProps {
   credentialUser: CredentialUser;
-  setCredentialUser: (newCredential: CredentialUser)=>void
+  setCredentialUser: (newCredential: CredentialUser) => void;
+  alertMessageData: AlertMessageData;
+  setAlertMessageData: (newAlert: AlertMessageData) => void;
+  changeAlertVisibility: any;
 }
 
 
-export default function SignIn({credentialUser, setCredentialUser}: CredentialUserProps) {
+export default function SignIn({
+  credentialUser,
+  setCredentialUser,
+  alertMessageData,
+  setAlertMessageData,
+  changeAlertVisibility,
+  }: CredentialUserProps) {
 
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
-  const [alertData, setAlertData] = useState <ErrorData>({title: "", description: "", status: "error"})
 
   const { register, handleSubmit, formState: { errors }, } = useForm<SignInUserData>();
-  const onSubmit = handleSubmit(async(data) => submitCommands(data));
+  const onSubmit = handleSubmit(async (data) => submitCommands(data));
 
   const navigate = useNavigate()
 
-  function changeAlertVisibility(){
-    setAlertBoxVisibility(true);
-    setTimeout(()=>{setAlertBoxVisibility(false)}, 5000);
-  }
-
-  async function submitCommands(data: any){
+  async function submitCommands(data: any) {
     const response = await signIn(data);
-    if(response.status !==200){
-      changeAlertVisibility()
-      setAlertData({...alertData, title: "Atenção!", description: response?.data || "Erro ao fazer login"})
-    }else{
+    if (response.status !== 200) {
+      changeAlertVisibility(setAlertBoxVisibility)
+      setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao fazer login" })
+    } else {
       setCredentialUser(response.data)
-      localStorage.setItem("school-spreadsheet", JSON.stringify({credentialUser: response.data}))
+      localStorage.setItem("school-spreadsheet", JSON.stringify({ credentialUser: response.data }))
       navigate("/home")
     }
   }
@@ -57,7 +60,7 @@ export default function SignIn({credentialUser, setCredentialUser}: CredentialUs
   return (
     <Form onSubmit={onSubmit} position={"relative"}>
       <AnimatePresence>
-        {alertBoxVisibility && <ErrorAlert alertData={alertData} initialPosition={-150} setVisibility={setAlertBoxVisibility}/>}
+        {alertBoxVisibility && <ErrorAlert alertMessageData={alertMessageData} initialPosition={-150} setVisibility={setAlertBoxVisibility} />}
       </AnimatePresence>
 
       <TextTop title="Login" subtitle="entre com seu email e senha" />
@@ -70,8 +73,6 @@ export default function SignIn({credentialUser, setCredentialUser}: CredentialUs
           variant="subtle"
           backgroundColor={"#EEEEEE"}
           type="email"
-          //FIXME 
-          value={"felipe@gmail.com"}
           {...register("email", {
             required: "email é obrigatório",
             pattern: {
@@ -81,7 +82,7 @@ export default function SignIn({credentialUser, setCredentialUser}: CredentialUs
           })}
         />
       </Field>
-      
+
 
       <Field
         className="passwordInput"
@@ -89,11 +90,9 @@ export default function SignIn({credentialUser, setCredentialUser}: CredentialUs
         invalid={!!errors.password}
         errorText={errors.password?.message}
       >
-        <PasswordInput 
+        <PasswordInput
           variant="subtle"
           backgroundColor={"#EEEEEE"}
-          //FIXME
-          value="123456"
           {...register("password", {
             required: "senha é obrigatória",
             minLength: {

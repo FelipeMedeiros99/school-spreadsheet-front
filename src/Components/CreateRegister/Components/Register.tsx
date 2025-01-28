@@ -13,32 +13,25 @@ import ErrorAlert from "../../ErrorAlert";
 
 
 
-export default function Register({credentialUser, setCredentialUser}: CredentialUserProps) {
+export default function Register({credentialUser, setCredentialUser, alertMessageData, setAlertMessageData, changeAlertVisibility}: CredentialUserProps) {
   
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
-  const [alertData, setAlertData] = useState<ErrorData>({ title: "", description: "", status: "error" })
   const {register, reset, handleSubmit, formState: {errors}} = useForm<SaveStudentData>()
   const navigate = useNavigate()
   const onSubmit = handleSubmit(async(data)=>await createRegister(data))
-
-  function changeAlertVisibility() {
-    setAlertBoxVisibility(true);
-    setTimeout(() => { setAlertBoxVisibility(false) }, 5000);
-  }
-  
   
   async function createRegister(data: SaveStudentData){ 
     const response = await addStudentApi(credentialUser, data)
     if (response.status !== 201) {
-      changeAlertVisibility()
-      setAlertData({ ...alertData, title: "Atenção!", description: response?.data || "Erro ao adicionar estudante" })
+      changeAlertVisibility(setAlertBoxVisibility)
+      setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao adicionar estudante" })
       if (response?.data === "Token expirou, faça login novamente!") {
         setTimeout(() => navigate("/sign-in"), 3000)
       }
       return
     }
-    changeAlertVisibility()
-    setAlertData({ ...alertData, title: "Atenção!", description: "Estudante adicionado com sucesso", status: "success" })
+    changeAlertVisibility(setAlertBoxVisibility)
+    setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: "Estudante adicionado com sucesso", status: "success" })
     reset()
 
   }
@@ -46,7 +39,7 @@ export default function Register({credentialUser, setCredentialUser}: Credential
   return (
     <Box w={"100%"} h={"100%"} display={"flex"} flexDir={"column"}>
       <AnimatePresence>
-        {alertBoxVisibility && <ErrorAlert alertData={alertData} initialPosition={100} setVisibility={setAlertBoxVisibility}/>}
+        {alertBoxVisibility && <ErrorAlert alertMessageData={alertMessageData} initialPosition={100} setVisibility={setAlertBoxVisibility}/>}
       </AnimatePresence>
       <Box borderBottom={"solid 1px #BBBBBB"} height={{base: "120px", md:"70px"}} />
       <Box w={"100%"} display={"flex"} alignItems={"center"} justifyContent={"space-between"} padding={{ base: "20px 20px 20px 20px", md: "40px 66px 40px 66px" }}>
