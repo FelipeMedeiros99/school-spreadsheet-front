@@ -31,7 +31,7 @@ export default function Home({token, setToken}: TokenProps) {
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
   const [alertData, setAlertData] = useState<ErrorData>({ title: "", description: "", status: "error" })
   const [studentsData, setStudentsData] = useState<StudentData[]>([])
-  const [pagesData, setPagesData] = useState<PagesData>({qtPage: 0, page: 0})
+  const [pagesData, setPagesData] = useState<PagesData>({qtPage: 0, page: 1})
   const navigate = useNavigate()
 
   function changeAlertVisibility() {

@@ -49,9 +49,10 @@ export async function signUp(userData: SignUpUserData){
 }
 
 export async function getStudents(page: number, token: string){
+  console.log("page: ", page)
   token = validToken(token)
   try{
-    const response = await api.get(`/students?page=${page}&type=&filter=`, {
+    const response = await api.get(`/students?page=${page-1}&type=&filter=`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
