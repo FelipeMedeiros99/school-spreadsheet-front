@@ -26,6 +26,8 @@ export interface PagesData{
   page: number
 }
 
+// TODO: alert message in an general state
+// TODO: ADD LOADING SPIN
 export default function Home({credentialUser, setCredentialUser}: CredentialUserProps) {
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
   const [alertData, setAlertData] = useState<ErrorData>({ title: "", description: "", status: "error" })

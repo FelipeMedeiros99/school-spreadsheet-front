@@ -12,7 +12,7 @@ export default function NavBarLeft() {
 
       <Box as="nav" marginTop={"35px"}>
         <Box display={"flex"} alignItems={"center"} justifyContent={"left"} height={"50px"} backgroundColor={"#EC622C"} fontWeight={"600"} fontSize={"18px"} paddingLeft={{base: "20px", xl: "59px"}}>
-          <Link to="/home">Alunos</Link>
+          <Link to="/new-register">Alunos</Link>
         </Box>
       </Box>
 

@@ -6,12 +6,15 @@ import NavBarTop from "./Components/NavBarTop";
 import Register from "./Components/Register";
 import BottomBar from "./Components/BottomBar";
 
-export default function RegisterStudent() {
+
+import { CredentialUserProps } from "../CredentialsPage/SignIn";
+
+export default function RegisterStudent({credentialUser, setCredentialUser}: CredentialUserProps) {
   return (
     <Box height={"100%"} display={"flex"} position={"relative"}>
       <NavBarTop />
       <NavBarLeft />
-      <Register />
+      <Register credentialUser={credentialUser} setCredentialUser={setCredentialUser}/>
       <BottomBar />
     </Box>
   )

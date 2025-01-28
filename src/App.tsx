@@ -21,7 +21,7 @@ export default function App() {
         <Route path="/sign-in" element={<SignIn credentialUser={credentialUser} setCredentialUser={setCredentialUser}/>} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/home" element={<Home credentialUser={credentialUser} setCredentialUser={setCredentialUser}/>} />
-        <Route path="/new-register" element={<RegisterStudent />} />
+        <Route path="/new-register" element={<RegisterStudent credentialUser={credentialUser} setCredentialUser={setCredentialUser}/>} />
       </Routes>
     </Router>
   );

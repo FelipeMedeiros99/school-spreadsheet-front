@@ -20,7 +20,7 @@ export interface SaveStudentData {
 }
 
 function validToken(credentialUser: CredentialUser){
-  if(!credentialUser){
+  if(!credentialUser.token || isNaN(credentialUser.userId)){
     const localStorageData = localStorage.getItem("school-spreadsheet")
     if(localStorageData){
       credentialUser = JSON.parse(localStorageData)?.credentialUser
@@ -101,14 +101,16 @@ export async function deleteStudentApi(credentialUser: CredentialUser, studentId
 
 export async function addStudentApi(credentialUser: CredentialUser, studentData: SaveStudentData){
   credentialUser = validToken(credentialUser)
+  console.log("credentialUSer: ", credentialUser)
   try{
-    const response = await api.post(`/students`, studentData, {
+    const response = await api.post(`/students`, {...studentData, userId: credentialUser.userId}, {
       headers: {
         Authorization: `Bearer ${credentialUser.token}`
       }
     });
     return response;
   }catch(e){
+    console.log(e)
     return (e as any)?.response;
   }
 }

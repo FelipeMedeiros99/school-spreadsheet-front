@@ -44,7 +44,6 @@ export default function StudentsTable({ studentData, setStudentData, pagesData, 
 
   async function deleteStudent(id: number) {
     const response = await deleteStudentApi(credentialUser, id)
-    console.log()
     if (response.status !== 200) {
       if(response.data !== "Token expirou, faça login novamente!"){
         changeAlertVisibility()
