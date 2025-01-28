@@ -102,7 +102,7 @@ export default function StudentsTable({ studentData, setStudentData, pagesData, 
   return (
     <VStack padding={{ base: "0px 20px 20px 20px", md: "0px 66px 43px 66px" }} width={"100%"}>
       <AnimatePresence>
-        {alertBoxVisibility && <ErrorAlert alertData={alertData} initialPosition={-100} />}
+        {alertBoxVisibility && <ErrorAlert alertData={alertData} initialPosition={-100} setVisibility={setAlertBoxVisibility}/>}
       </AnimatePresence>
 
       <Table.Root width={"100%"}>

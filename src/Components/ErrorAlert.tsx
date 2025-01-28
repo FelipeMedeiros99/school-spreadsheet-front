@@ -1,6 +1,6 @@
 import { Alert, Box, BoxProps, ProgressPropsProvider } from "@chakra-ui/react"
 import { motion, AnimatePresence } from "framer-motion";
-
+import {CloseButton} from "../components/ui/close-button";
 export type StatusErrorType = "error" | "info" | "warning" | "success" | "neutral"
 
 export interface ErrorAlertProps extends BoxProps {
@@ -9,10 +9,11 @@ export interface ErrorAlertProps extends BoxProps {
     description: string;
     status: StatusErrorType;
   }, 
-  initialPosition: number
+  initialPosition: number;
+  setVisibility: (newVisibility: boolean)=>void;
 }
 
-export default function ErrorAlert({alertData, initialPosition, ...props}: ErrorAlertProps) {
+export default function ErrorAlert({alertData, initialPosition, setVisibility, ...props}: ErrorAlertProps) {
   const {status, title, description} = alertData;
   return (
       
@@ -20,7 +21,7 @@ export default function ErrorAlert({alertData, initialPosition, ...props}: Error
       initial={{ opacity: 0, y: initialPosition - 100}}
       animate={{ opacity: 1, y: initialPosition }}
       exit={{ opacity: 0, y: initialPosition - 100}}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.7 }}
       style={{
         zIndex: "6"
       }}
@@ -33,6 +34,7 @@ export default function ErrorAlert({alertData, initialPosition, ...props}: Error
               {description}
             </Alert.Description>
           </Alert.Content>
+        <CloseButton onClick={()=>setVisibility(false)}/>
         </Alert.Root>
         
       </motion.div>

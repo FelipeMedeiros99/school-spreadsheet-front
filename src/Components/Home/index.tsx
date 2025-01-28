@@ -75,7 +75,7 @@ export default function Home({credentialUser, setCredentialUser}: CredentialUser
     <VStack>
       <Header />
       <AnimatePresence>
-        {alertBoxVisibility && <ErrorAlert alertData={alertData} initialPosition={0} />}
+        {alertBoxVisibility && <ErrorAlert alertData={alertData} initialPosition={0} setVisibility={setAlertBoxVisibility}/>}
       </AnimatePresence>
       <Box w={"100%"} display={"flex"} alignItems={"center"} justifyContent={"space-between"} padding={{ base: "20px 20px 20px 20px", md: "43px 66px 43px 66px" }}>
         <Heading as="h1" fontWeight={"800"} fontSize={"24px"} marginLeft={{ base: "0", md: "30px" }}>Alunos</Heading>

@@ -57,7 +57,7 @@ export default function SignIn({credentialUser, setCredentialUser}: CredentialUs
   return (
     <Form onSubmit={onSubmit} position={"relative"}>
       <AnimatePresence>
-        {alertBoxVisibility && <ErrorAlert alertData={alertData} initialPosition={-150}/>}
+        {alertBoxVisibility && <ErrorAlert alertData={alertData} initialPosition={-150} setVisibility={setAlertBoxVisibility}/>}
       </AnimatePresence>
 
       <TextTop title="Login" subtitle="entre com seu email e senha" />

@@ -46,7 +46,7 @@ export default function Register({credentialUser, setCredentialUser}: Credential
   return (
     <Box w={"100%"} h={"100%"} display={"flex"} flexDir={"column"}>
       <AnimatePresence>
-        {alertBoxVisibility && <ErrorAlert alertData={alertData} initialPosition={100} />}
+        {alertBoxVisibility && <ErrorAlert alertData={alertData} initialPosition={100} setVisibility={setAlertBoxVisibility}/>}
       </AnimatePresence>
       <Box borderBottom={"solid 1px #BBBBBB"} height={{base: "120px", md:"70px"}} />
       <Box w={"100%"} display={"flex"} alignItems={"center"} justifyContent={"space-between"} padding={{ base: "20px 20px 20px 20px", md: "40px 66px 40px 66px" }}>
