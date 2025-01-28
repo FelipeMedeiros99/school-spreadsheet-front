@@ -5,7 +5,7 @@ import SignIn from "./Components/CredentialsPage/SignIn";
 import SignUp from "./Components/CredentialsPage/SignUp";
 import Home from "./Components/Home";
 import RegisterStudent from "./Components/CreateRegister";
-import EditStudent, { EditStudentType, StudentDataEdit } from "./Components/EditStudent";
+import EditStudent, { StudentDataEdit } from "./Components/EditStudent";
 
 export interface CredentialUser {
   token: string;

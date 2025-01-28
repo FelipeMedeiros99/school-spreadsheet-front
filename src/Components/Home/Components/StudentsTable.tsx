@@ -2,7 +2,7 @@ import { Box, Table, For, VStack, HStack } from "@chakra-ui/react";
 import { FaRegTrashAlt, FaEdit } from "react-icons/fa";
 import { AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   PaginationItems,
@@ -43,11 +43,12 @@ export default function StudentsTable({
   changeAlertVisibility,
   setStudentDataEdit
 }: StudentsTableProps & {setStudentDataEdit: (newData: StudentDataEdit) => void;}) {
-
-
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
-  const [deleteEffectKey, setDeleteEffectKey] = useState<boolean>(true);
   const navigate = useNavigate();
+  const qtRenderizatioin = useRef(0)
+
+  qtRenderizatioin.current = qtRenderizatioin.current + 1
+  console.log(qtRenderizatioin)
 
   async function deleteStudent(id: number) {
     const response = await deleteStudentApi(credentialUser, id)
@@ -62,10 +63,8 @@ export default function StudentsTable({
       return
     }
     setPagesData({ ...pagesData })
-    setDeleteEffectKey(!deleteEffectKey)
     changeAlertVisibility(setAlertBoxVisibility)
     setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: "Estudante deletado com sucesso", status: "success" })
-
   }
 
   async function editStudent(studentData: any) {
@@ -88,28 +87,31 @@ export default function StudentsTable({
       }
       setStudentData(response.data)
     })()
-  }, [pagesData])
+  }, [pagesData, credentialUser, alertMessageData, changeAlertVisibility, navigate, setAlertMessageData, setStudentData])
 
 
   useEffect(() => {
     (async () => {
       const response = await getQtStudents(credentialUser)
-      console.log(response)
       if (response?.status !== 200) {
         if (response?.data !== "Token expirou, faça login novamente!") {
           changeAlertVisibility(setAlertBoxVisibility)
           setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
         }
         setTimeout(() => navigate("/sign-in"), 3000)
-      } else {
+        return
+      }  
+
+      const pages = Math.ceil(response?.data?.quantityStudents / 10)
+      if(pagesData.qtPage !== pages){
         setPagesData({
           ...pagesData,
-          qtPage: Math.ceil(response?.data?.quantityStudents / 10)
+          qtPage: pages
         })
       }
+      
     })()
-  }, [deleteEffectKey])
-
+  }, [alertMessageData, changeAlertVisibility, credentialUser, navigate, pagesData, setAlertMessageData, setPagesData])
 
   return (
     <VStack padding={{ base: "0px 20px 20px 20px", md: "0px 66px 43px 66px" }} width={"100%"}>

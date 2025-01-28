@@ -6,9 +6,8 @@ import { Oval } from "react-loader-spinner";
 
 import { Field } from "../../../components/ui/field";
 import MyButton from "../../MyButton";
-import { addStudentApi, editStudentApi, SaveStudentData } from "../../../config";
+import { editStudentApi, SaveStudentData } from "../../../config";
 
-import { CredentialUserProps, ErrorData } from "../../CredentialsPage/SignIn";
 import { useEffect, useState } from "react";
 import ErrorAlert from "../../ErrorAlert";
 import { EditStudentType } from "..";
@@ -24,7 +23,7 @@ export default function Register({ credentialUser, setCredentialUser, alertMessa
 
   useEffect(() => {
     reset({ name: studentData.name, age: studentData.age, class: studentData.class, studentId: studentData.id })
-  }, [])
+  }, [studentData, reset])
 
   async function editRegister(data: EditType) {
     setSpinnerAtive(true)
@@ -41,7 +40,7 @@ export default function Register({ credentialUser, setCredentialUser, alertMessa
     changeAlertVisibility(setAlertBoxVisibility)
     setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: "Estudante editado com sucesso", status: "success" })
     reset({ name: "", age: null, class: "", studentId: undefined } as any)
-    setTimeout(() => navigate("/home"), 3000)
+    setTimeout(() => navigate("/home"), 1000)
     setSpinnerAtive(true)
   }
 
