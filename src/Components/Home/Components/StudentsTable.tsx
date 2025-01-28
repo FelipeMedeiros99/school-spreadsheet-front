@@ -16,6 +16,7 @@ import ErrorAlert from "../../ErrorAlert";
 import { deleteStudentApi, editStudentApi, getQtStudents, getStudents } from "../../../config";
 import { ErrorData } from "@/Components/CredentialsPage/SignIn";
 import { AlertMessageData, CredentialUser } from "../../../App";
+import { StudentDataEdit } from "../../../Components/EditStudent";
 
 
 interface StudentsTableProps {
@@ -32,7 +33,18 @@ interface StudentsTableProps {
 
 //TODO: valid with empty studentData
 
-export default function StudentsTable({ studentData, setStudentData, pagesData, setPagesData, credentialUser, alertMessageData, setAlertMessageData, changeAlertVisibility }: StudentsTableProps) {
+export default function StudentsTable({ 
+  studentData, 
+  setStudentData, 
+  pagesData, 
+  setPagesData, 
+  credentialUser, 
+  alertMessageData, 
+  setAlertMessageData, 
+  changeAlertVisibility,
+  setStudentDataEdit
+}: StudentsTableProps & {setStudentDataEdit: (newData: StudentDataEdit) => void;}) {
+
 
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
   const [deleteEffectKey, setDeleteEffectKey] = useState<boolean>(true);
@@ -58,24 +70,8 @@ export default function StudentsTable({ studentData, setStudentData, pagesData, 
   }
 
   async function editStudent(studentData: any) {
-    navigate("/edit-")
-    console.log(studentData)
-    // const response = await editStudentApi(credentialUser, studentData)
-    // if (response.status !== 200) {
-    //   if (response.data !== "Token expirou, faça login novamente!") {
-    //     changeAlertVisibility(setAlertBoxVisibility)
-    //     setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao deletar estudante" })
-    //   }
-    //   if (response?.data === "Token expirou, faça login novamente!") {
-    //     setTimeout(() => navigate("/sign-in"), 3000)
-    //   }
-    //   return
-    // }
-    // setPagesData({ ...pagesData })
-    // setDeleteEffectKey(!deleteEffectKey)
-    // changeAlertVisibility(setAlertBoxVisibility)
-    // setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: "Estudante deletado com sucesso", status: "success" })
-
+    setStudentDataEdit(studentData)
+    navigate("/edit-student")
   }
 
 

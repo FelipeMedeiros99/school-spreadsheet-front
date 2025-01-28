@@ -11,6 +11,7 @@ import MyButton from "../MyButton";
 import { getQtStudents, getStudents } from "../../config";
 import { CredentialUserProps, ErrorData } from "../CredentialsPage/SignIn";
 import ErrorAlert from "../ErrorAlert";
+import { StudentDataEdit } from "../EditStudent";
 
 export interface StudentData{
   age: number;
@@ -35,12 +36,14 @@ export default function Home({
   alertMessageData, 
   setAlertMessageData, 
   changeAlertVisibility,
-  }: CredentialUserProps) {
+  setStudentDataEdit,
+  }: CredentialUserProps & {setStudentDataEdit: (newData: StudentDataEdit) => void;}) {
   
-    const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
+  const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
   const [studentsData, setStudentsData] = useState<StudentData[]>([])
   const [pagesData, setPagesData] = useState<PagesData>({qtPage: 0, page: 1})
   const navigate = useNavigate()
+  
   
   
   useEffect(() => {
@@ -93,6 +96,7 @@ export default function Home({
         alertMessageData={alertMessageData} 
         setAlertMessageData={setAlertMessageData}
         changeAlertVisibility={changeAlertVisibility}
+        setStudentDataEdit={setStudentDataEdit}
         />
 
     </ VStack>

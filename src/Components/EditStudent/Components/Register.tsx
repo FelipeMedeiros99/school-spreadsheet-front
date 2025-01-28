@@ -27,9 +27,10 @@ export default function Register({credentialUser, setCredentialUser, alertMessag
   
   async function editRegister(data: EditType){ 
     const response = await editStudentApi(credentialUser, data)
-    if (response.status !== 201) {
+    console.log(response)
+    if (response.status !== 200) {
       changeAlertVisibility(setAlertBoxVisibility)
-      setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao editar estudante" })
+      setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao editar estudante", status: "error" })
       if (response?.data === "Token expirou, faça login novamente!") {
         setTimeout(() => navigate("/sign-in"), 3000)
       }
@@ -37,7 +38,8 @@ export default function Register({credentialUser, setCredentialUser, alertMessag
     }
     changeAlertVisibility(setAlertBoxVisibility)
     setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: "Estudante editado com sucesso", status: "success" })
-    reset()
+    reset({name: "", age: undefined, class: "", studentId: undefined})
+    setTimeout(()=>navigate("/home"), 3000)
 
   }
 

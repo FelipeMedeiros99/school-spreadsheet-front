@@ -30,6 +30,7 @@ export default function App() {
     setTimeout(()=>{setAlertBoxVisibility(false)}, 5000);
   }
 
+
   return (
     <Router>
       <Routes>
@@ -60,6 +61,7 @@ export default function App() {
             alertMessageData={alertMessageData} 
             setAlertMessageData={setAlertMessageData}
             changeAlertVisibility={changeAlertVisibility} 
+            setStudentDataEdit={setStudentDataEdit}
             />} 
           />
         
