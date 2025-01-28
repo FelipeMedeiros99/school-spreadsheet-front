@@ -41,7 +41,7 @@ export default function Register({ credentialUser, setCredentialUser, alertMessa
     setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: "Estudante editado com sucesso", status: "success" })
     reset({ name: "", age: null, class: "", studentId: undefined } as any)
     setTimeout(() => navigate("/home"), 1000)
-    setSpinnerAtive(true)
+    setSpinnerAtive(false)
   }
 
   return (

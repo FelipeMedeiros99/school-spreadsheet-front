@@ -2,7 +2,7 @@ import { Box, Table, For, VStack, HStack } from "@chakra-ui/react";
 import { FaRegTrashAlt, FaEdit } from "react-icons/fa";
 import { AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   PaginationItems,
@@ -29,9 +29,6 @@ interface StudentsTableProps {
   changeAlertVisibility: any
 }
 
-
-//TODO: valid with empty studentData
-
 export default function StudentsTable({ 
   studentData, 
   setStudentData, 
@@ -45,10 +42,6 @@ export default function StudentsTable({
 }: StudentsTableProps & {setStudentDataEdit: (newData: StudentDataEdit) => void;}) {
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
   const navigate = useNavigate();
-  const qtRenderizatioin = useRef(0)
-
-  qtRenderizatioin.current = qtRenderizatioin.current + 1
-  console.log(qtRenderizatioin)
 
   async function deleteStudent(id: number) {
     const response = await deleteStudentApi(credentialUser, id)
