@@ -1,4 +1,5 @@
 import axios from "axios";
+import { CredentialUser } from "../App";
 
 export interface SignInUserData {
   email:  string;
@@ -11,16 +12,23 @@ export interface SignUpUserData {
   confirmPassword: string
 }
 
-function validToken(token: string){
-  if(!token){
+export interface SaveStudentData {
+  age: number;
+  userId: number;
+  class: string;
+  name: string
+}
+
+function validToken(credentialUser: CredentialUser){
+  if(!credentialUser){
     const localStorageData = localStorage.getItem("school-spreadsheet")
     if(localStorageData){
-      token = JSON.parse(localStorageData)?.token
-      return token;
+      credentialUser = JSON.parse(localStorageData)?.credentialUser
+      return credentialUser;
     }
-    return "Invalid_token"
+    return {userId: NaN, token: "invalid_Token"}
   } 
-  return token;
+  return credentialUser;
 
 }
 
@@ -48,12 +56,12 @@ export async function signUp(userData: SignUpUserData){
   }
 }
 
-export async function getStudents(page: number, token: string){
-  token = validToken(token)
+export async function getStudents(page: number, credentialUser: CredentialUser){
+  credentialUser = validToken(credentialUser)
   try{
     const response = await api.get(`/students?page=${page-1}&type=&filter=`, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${credentialUser.token}`
       }
     });
     return response;
@@ -62,12 +70,12 @@ export async function getStudents(page: number, token: string){
   }
 }
 
-export async function getQtStudents(token: string){
-  token = validToken(token)
+export async function getQtStudents(credentialUSer: CredentialUser){
+  credentialUSer = validToken(credentialUSer)
   try{
     const response = await api.get(`/students/count?type=""&filter=""`, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${credentialUSer.token}`
       }
     });
     return response;
@@ -76,12 +84,27 @@ export async function getQtStudents(token: string){
   }
 }
 
-export async function deleteStudentApi(token: string, studentId: number){
-  token = validToken(token)
+export async function deleteStudentApi(credentialUser: CredentialUser, studentId: number){
+  credentialUser = validToken(credentialUser)
   try{
     const response = await api.delete(`/students/${studentId}`, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${credentialUser.token}`
+      }
+    });
+    return response;
+  }catch(e){
+    return (e as any)?.response;
+  }
+}
+
+
+export async function addStudentApi(credentialUser: CredentialUser, studentData: SaveStudentData){
+  credentialUser = validToken(credentialUser)
+  try{
+    const response = await api.post(`/students`, studentData, {
+      headers: {
+        Authorization: `Bearer ${credentialUser.token}`
       }
     });
     return response;

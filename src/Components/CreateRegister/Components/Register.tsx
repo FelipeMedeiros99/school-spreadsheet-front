@@ -4,19 +4,19 @@ import { useForm } from "react-hook-form";
 
 import { Field } from "../../../components/ui/field";
 import MyButton from "../../MyButton";
+import { SaveStudentData } from "../../../config";
 
-interface StudentsInfo {
-  fullName: string;
-  age: number; 
-  class: string
-}
 
 
 export default function Register() {
   
-  const {register, handleSubmit, formState: {errors}} = useForm<StudentsInfo>()
+  const {register, handleSubmit, formState: {errors}} = useForm<SaveStudentData>()
   const navigate = useNavigate()
-  const onSubmit = handleSubmit((data)=>console.log(data))
+  const onSubmit = handleSubmit((data)=>createRegister(data))
+
+  function createRegister(data: SaveStudentData){ 
+    console.log(data)
+  }
 
   return (
     <Box w={"100%"} h={"100%"} display={"flex"} flexDir={"column"}>
@@ -28,8 +28,8 @@ export default function Register() {
 
       <Box as="form" onSubmit={onSubmit} display={"flex"} flexDir={"column"} alignItems={"left"} height={"100%"} margin={{ base: "20px 20px 20px 20px", md: "0px 66px 78px 66px" }} padding={{base: "20px 20px 20px 20px", lg: "70px 0 0 43px"}} border={"solid 1px #DDDDDD"}>
         <Box display={{ xl: "flex" }} flexDirection={{base:"column", lg:"row"}} w={"100%"}>
-          <Field invalid={!!errors.fullName} errorText={errors.fullName?.message} label="nome" w={{base: "auto", lg: "547px"}} marginRight={{base: "0", lg: "32px"}} maxW={"547px"} >
-            <Input {...register("fullName", {required: "O nome é necessário"})}  variant="subtle" backgroundColor={"#EEEEEE"} />
+          <Field invalid={!!errors.name} errorText={errors.name?.message} label="nome" w={{base: "auto", lg: "547px"}} marginRight={{base: "0", lg: "32px"}} maxW={"547px"} >
+            <Input {...register("name", {required: "O nome é necessário"})}  variant="subtle" backgroundColor={"#EEEEEE"} />
           </Field>
 
           <Field invalid={!!errors.age} errorText={errors.age?.message} label="idade" w={{ base: "auto", xl:"153px"}} maxW={"547px"} marginTop={{base:"24px", xl: "0"}}>

@@ -13,7 +13,7 @@ import ErrorAlert, { StatusErrorType } from "../ErrorAlert";
 import { signIn, SignInUserData } from "../../config";
 
 import "./index.css"
-import { TokenProps } from "@/App";
+import { CredentialUser } from "../../App";
 
 export interface ErrorData {
   title: string;
@@ -21,8 +21,13 @@ export interface ErrorData {
   status: StatusErrorType;
 }
 
+export interface CredentialUserProps{
+  credentialUser: CredentialUser;
+  setCredentialUser: (newCredential: CredentialUser)=>void
+}
 
-export default function SignIn({token , setToken}: TokenProps) {
+
+export default function SignIn({credentialUser, setCredentialUser}: CredentialUserProps) {
 
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
   const [alertData, setAlertData] = useState <ErrorData>({title: "", description: "", status: "error"})
@@ -43,8 +48,8 @@ export default function SignIn({token , setToken}: TokenProps) {
       changeAlertVisibility()
       setAlertData({...alertData, title: "Atenção!", description: response?.data || "Erro ao fazer login"})
     }else{
-      setToken(response.data)
-      localStorage.setItem("school-spreadsheet", JSON.stringify({token: response.data}))
+      setCredentialUser(response.data)
+      localStorage.setItem("school-spreadsheet", JSON.stringify({credentialUser: response.data}))
       navigate("/home")
     }
   }

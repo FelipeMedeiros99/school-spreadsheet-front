@@ -6,20 +6,21 @@ import SignUp from "./Components/CredentialsPage/SignUp";
 import Home from "./Components/Home";
 import RegisterStudent from "./Components/CreateRegister";
 
-export interface TokenProps {
+export interface CredentialUser {
   token: string;
-  setToken: (newToken: string) => void;
-} 
+  userId: number
+}
+
 
 export default function App() {
-  const [ token, setToken ] = useState("")
+  const [ credentialUser, setCredentialUser ] = useState<CredentialUser>({token: "", userId: NaN})
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/sign-in" />} />
-        <Route path="/sign-in" element={<SignIn token={token} setToken={setToken}/>} />
+        <Route path="/sign-in" element={<SignIn credentialUser={credentialUser} setCredentialUser={setCredentialUser}/>} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/home" element={<Home token={token} setToken={setToken}/>} />
+        <Route path="/home" element={<Home credentialUser={credentialUser} setCredentialUser={setCredentialUser}/>} />
         <Route path="/new-register" element={<RegisterStudent />} />
       </Routes>
     </Router>
