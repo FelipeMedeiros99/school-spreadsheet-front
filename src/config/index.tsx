@@ -19,6 +19,14 @@ export interface SaveStudentData {
   name: string
 }
 
+export interface EditStudentData {
+  age: number;
+  studentId: number;
+  class: string;
+  name: string
+}
+
+
 function validToken(credentialUser: CredentialUser){
   if(!credentialUser.token || isNaN(credentialUser.userId)){
     const localStorageData = localStorage.getItem("school-spreadsheet")
@@ -97,6 +105,22 @@ export async function deleteStudentApi(credentialUser: CredentialUser, studentId
     return (e as any)?.response;
   }
 }
+
+
+export async function editStudentApi(credentialUser: CredentialUser, studentData: Omit<EditStudentData, "studentId"> &{studentId: number}){
+  credentialUser = validToken(credentialUser)
+  try{
+    const response = await api.put(`/students`, studentData, {
+      headers: {
+        Authorization: `Bearer ${credentialUser.token}`
+      }
+    });
+    return response;
+  }catch(e){
+    return (e as any)?.response;
+  }
+}
+
 
 
 export async function addStudentApi(credentialUser: CredentialUser, studentData: SaveStudentData){

@@ -1,5 +1,5 @@
 import { Box, Table, For, VStack, HStack } from "@chakra-ui/react";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaRegTrashAlt, FaEdit } from "react-icons/fa";
 import { AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -9,12 +9,11 @@ import {
   PaginationNextTrigger,
   PaginationPrevTrigger,
   PaginationRoot,
-} from "../../../components/ui/pagination"
-// /components/ui/pagination
+} from "../../../components/ui/pagination";
 
 import { PagesData, StudentData } from "..";
 import ErrorAlert from "../../ErrorAlert";
-import { deleteStudentApi, getQtStudents, getStudents } from "../../../config";
+import { deleteStudentApi, editStudentApi, getQtStudents, getStudents } from "../../../config";
 import { ErrorData } from "@/Components/CredentialsPage/SignIn";
 import { AlertMessageData, CredentialUser } from "../../../App";
 
@@ -26,7 +25,7 @@ interface StudentsTableProps {
   setPagesData: (newPage: PagesData) => void;
   credentialUser: CredentialUser;
   alertMessageData: AlertMessageData;
-  setAlertMessageData: (newAlert: AlertMessageData)=>void;
+  setAlertMessageData: (newAlert: AlertMessageData) => void;
   changeAlertVisibility: any
 }
 
@@ -36,13 +35,13 @@ interface StudentsTableProps {
 export default function StudentsTable({ studentData, setStudentData, pagesData, setPagesData, credentialUser, alertMessageData, setAlertMessageData, changeAlertVisibility }: StudentsTableProps) {
 
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
-  const [deleteEffectKey, setDeleteEffectKey ] = useState<boolean>(true);
+  const [deleteEffectKey, setDeleteEffectKey] = useState<boolean>(true);
   const navigate = useNavigate();
 
   async function deleteStudent(id: number) {
     const response = await deleteStudentApi(credentialUser, id)
     if (response.status !== 200) {
-      if(response.data !== "Token expirou, faça login novamente!"){
+      if (response.data !== "Token expirou, faça login novamente!") {
         changeAlertVisibility(setAlertBoxVisibility)
         setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao deletar estudante" })
       }
@@ -51,19 +50,42 @@ export default function StudentsTable({ studentData, setStudentData, pagesData, 
       }
       return
     }
-    setPagesData({...pagesData})
+    setPagesData({ ...pagesData })
     setDeleteEffectKey(!deleteEffectKey)
     changeAlertVisibility(setAlertBoxVisibility)
-    setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: "Estudante deletado com sucesso", status: "success"})
-    
+    setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: "Estudante deletado com sucesso", status: "success" })
+
   }
+
+  async function editStudent(studentData: any) {
+    navigate("/edit-")
+    console.log(studentData)
+    // const response = await editStudentApi(credentialUser, studentData)
+    // if (response.status !== 200) {
+    //   if (response.data !== "Token expirou, faça login novamente!") {
+    //     changeAlertVisibility(setAlertBoxVisibility)
+    //     setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao deletar estudante" })
+    //   }
+    //   if (response?.data === "Token expirou, faça login novamente!") {
+    //     setTimeout(() => navigate("/sign-in"), 3000)
+    //   }
+    //   return
+    // }
+    // setPagesData({ ...pagesData })
+    // setDeleteEffectKey(!deleteEffectKey)
+    // changeAlertVisibility(setAlertBoxVisibility)
+    // setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: "Estudante deletado com sucesso", status: "success" })
+
+  }
+
+
 
 
   useEffect(() => {
     (async () => {
       const response = await getStudents(pagesData.page, credentialUser)
       if (response.status !== 200) {
-        if(response.data !== "Token expirou, faça login novamente!"){
+        if (response.data !== "Token expirou, faça login novamente!") {
           changeAlertVisibility(setAlertBoxVisibility)
           setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
         }
@@ -77,19 +99,19 @@ export default function StudentsTable({ studentData, setStudentData, pagesData, 
   }, [pagesData])
 
 
-  useEffect(()=>{
-    (async()=>{
+  useEffect(() => {
+    (async () => {
       const response = await getQtStudents(credentialUser)
       if (response?.status !== 200) {
-        if(response.data !== "Token expirou, faça login novamente!"){
+        if (response.data !== "Token expirou, faça login novamente!") {
           changeAlertVisibility(setAlertBoxVisibility)
           setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
         }
-        setTimeout(()=>navigate("/sign-in"), 3000)
-      }else{
+        setTimeout(() => navigate("/sign-in"), 3000)
+      } else {
         setPagesData({
-          ...pagesData, 
-          qtPage: Math.ceil(response?.data?.quantityStudents/10)
+          ...pagesData,
+          qtPage: Math.ceil(response?.data?.quantityStudents / 10)
         })
       }
     })()
@@ -99,13 +121,13 @@ export default function StudentsTable({ studentData, setStudentData, pagesData, 
   return (
     <VStack padding={{ base: "0px 20px 20px 20px", md: "0px 66px 43px 66px" }} width={"100%"}>
       <AnimatePresence>
-        {alertBoxVisibility && <ErrorAlert alertMessageData={alertMessageData} initialPosition={-100} setVisibility={setAlertBoxVisibility}/>}
+        {alertBoxVisibility && <ErrorAlert alertMessageData={alertMessageData} initialPosition={-100} setVisibility={setAlertBoxVisibility} />}
       </AnimatePresence>
 
       <Table.Root width={"100%"}>
         <Table.Header>
           <Table.Row justifyContent={"space-around"} borderBottom={"solid 1px #0000001f"}>
-            <For each={["nome", "idade", "turma", "deletar"]}>
+            <For each={["nome", "idade", "turma", "editar", "deletar"]}>
               {(title) => (
                 <Table.ColumnHeader key={title} paddingLeft={{ base: "10px", md: title === "nome" ? "30px" : "10px" }} textAlign={title === "nome" ? "left" : "center"} verticalAlign={"middle"}>{title}</Table.ColumnHeader>
               )}
@@ -114,17 +136,25 @@ export default function StudentsTable({ studentData, setStudentData, pagesData, 
         </Table.Header>
         <Table.Body>
           {studentData.map((student) => (
-            <Table.Row _hover={{ bgColor: "#f7f7f7" }} key={student.id} bgColor={"white"} color={"black"} alignItems={"center"} justifyContent={"space-around"} borderBottom={"solid 1px #0000001f"}>
+            <Table.Row _hover={{ bgColor: "#f7f7f7" }} key={student?.id} bgColor={"white"} color={"black"} alignItems={"center"} justifyContent={"space-around"} borderBottom={"solid 1px #0000001f"}>
               <For each={["name", "age", "class"]}>
                 {(key) => (
                   <Table.Cell key={key} paddingLeft={{ base: "10px", md: key === "name" ? "30px" : "10px", }} textAlign={key === "name" ? "left" : "center"}>{student[key]}</Table.Cell>
                 )}
               </For>
-              <Table.Cell display={"flex"} textAlign={"center"} justifyContent={"center"}>
-                <Box _hover={{ cursor: "pointer" }} onClick={async () => { await deleteStudent(student.id) }}>
-                  <FaRegTrashAlt />
+              
+              <Table.Cell paddingLeft={"10px"} textAlign={"center"}>
+                <Box width={"100%"} height={"100%"} display={"flex"} alignItems={"center"} justifyContent={"center"} _hover={{ cursor: "pointer" }} onClick={async () => { await editStudent(student) }}>
+                  <FaEdit />
                 </Box>
               </Table.Cell>
+
+              <Table.Cell paddingLeft={"10px"} textAlign={"center"}>
+                <Box width={"100%"} height={"100%"} display={"flex"} alignItems={"center"} justifyContent={"center"} _hover={{ cursor: "pointer" }} onClick={async () => { await deleteStudent(student.id) }}>
+                  <FaRegTrashAlt display={"flex"}/>
+                </Box>
+              </Table.Cell>
+
             </Table.Row>
           ))}
         </Table.Body>

@@ -5,6 +5,7 @@ import SignIn from "./Components/CredentialsPage/SignIn";
 import SignUp from "./Components/CredentialsPage/SignUp";
 import Home from "./Components/Home";
 import RegisterStudent from "./Components/CreateRegister";
+import EditStudent, { EditStudentType, StudentDataEdit } from "./Components/EditStudent";
 
 export interface CredentialUser {
   token: string;
@@ -22,6 +23,7 @@ export interface AlertMessageData {
 export default function App() {
   const [credentialUser, setCredentialUser] = useState<CredentialUser>({ token: "", userId: NaN })
   const [alertMessageData, setAlertMessageData] = useState<AlertMessageData>({ title: "", description: "", status: "error" })
+  const [studentDataEdit, setStudentDataEdit] = useState<StudentDataEdit>({age: NaN, class: "", createdAt: "", id: NaN, name: "", userId: NaN})
 
   function changeAlertVisibility(setAlertBoxVisibility: (newVisibility: boolean)=>void){
     setAlertBoxVisibility(true);
@@ -70,6 +72,21 @@ export default function App() {
             changeAlertVisibility={changeAlertVisibility}
             />} 
           />
+
+
+
+        <Route path="/edit-student" element={
+          <EditStudent 
+            credentialUser={credentialUser} 
+            setCredentialUser={setCredentialUser} 
+            alertMessageData={alertMessageData} 
+            setAlertMessageData={setAlertMessageData} 
+            changeAlertVisibility={changeAlertVisibility}
+            studentData={studentDataEdit}
+            />} 
+          />
+
+
       </Routes>
     </Router>
   );

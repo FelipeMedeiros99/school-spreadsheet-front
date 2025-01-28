@@ -28,8 +28,16 @@ export interface PagesData{
 
 // TODO: ADD LOADING SPIN
 // TODO: ADD SEARCH INPUT
-export default function Home({credentialUser, setCredentialUser, alertMessageData, setAlertMessageData, changeAlertVisibility}: CredentialUserProps) {
-  const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
+// TODO: EDIT STUDENT ROUTER
+export default function Home({
+  credentialUser, 
+  setCredentialUser, 
+  alertMessageData, 
+  setAlertMessageData, 
+  changeAlertVisibility,
+  }: CredentialUserProps) {
+  
+    const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
   const [studentsData, setStudentsData] = useState<StudentData[]>([])
   const [pagesData, setPagesData] = useState<PagesData>({qtPage: 0, page: 1})
   const navigate = useNavigate()
