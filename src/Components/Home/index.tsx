@@ -81,7 +81,7 @@ export default function Home({token, setToken}: TokenProps) {
         <MyButton onClick={() => navigate("/new-register")}>Criar Registro</MyButton>
       </Box>
 
-      <StudentsTable studentData={studentsData} setStudentData={setStudentsData} pagesData={pagesData} setPagesData={setPagesData}/>
+      <StudentsTable studentData={studentsData} setStudentData={setStudentsData} pagesData={pagesData} setPagesData={setPagesData} token={token}/>
 
     </ VStack>
   )
