@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import ErrorAlert from "../../ErrorAlert";
 import { EditStudentType } from "..";
 
-type EditType = Omit<SaveStudentData, "userId"> & {studentId: number}
+type EditType = Omit<SaveStudentData, "userId" | "age"> & {studentId: number, age: number}
 
 export default function Register({credentialUser, setCredentialUser, alertMessageData, setAlertMessageData, changeAlertVisibility, studentData}: EditStudentType) {
   
@@ -27,7 +27,6 @@ export default function Register({credentialUser, setCredentialUser, alertMessag
   
   async function editRegister(data: EditType){ 
     const response = await editStudentApi(credentialUser, data)
-    console.log(response)
     if (response.status !== 200) {
       changeAlertVisibility(setAlertBoxVisibility)
       setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao editar estudante", status: "error" })
@@ -38,12 +37,10 @@ export default function Register({credentialUser, setCredentialUser, alertMessag
     }
     changeAlertVisibility(setAlertBoxVisibility)
     setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: "Estudante editado com sucesso", status: "success" })
-    reset({name: "", age: undefined, class: "", studentId: undefined})
+    reset({name: "", age: null, class: "", studentId: undefined} as any)
     setTimeout(()=>navigate("/home"), 3000)
 
   }
-
-
 
   return (
     <Box w={"100%"} h={"100%"} display={"flex"} flexDir={"column"}>
