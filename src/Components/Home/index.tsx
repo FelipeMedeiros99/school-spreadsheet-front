@@ -33,13 +33,13 @@ export default function Home({token, setToken}: TokenProps) {
   const [studentsData, setStudentsData] = useState<StudentData[]>([])
   const [pagesData, setPagesData] = useState<PagesData>({qtPage: 0, page: 1})
   const navigate = useNavigate()
-
+  
   function changeAlertVisibility() {
     setAlertBoxVisibility(true);
     setTimeout(() => { setAlertBoxVisibility(false) }, 5000);
   }
-
-
+  
+  
   useEffect(() => {
     (async () => {
       const response = await getStudents(pagesData.page, token)

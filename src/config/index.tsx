@@ -49,7 +49,6 @@ export async function signUp(userData: SignUpUserData){
 }
 
 export async function getStudents(page: number, token: string){
-  console.log("page: ", page)
   token = validToken(token)
   try{
     const response = await api.get(`/students?page=${page-1}&type=&filter=`, {
@@ -63,11 +62,24 @@ export async function getStudents(page: number, token: string){
   }
 }
 
-// TODO
 export async function getQtStudents(token: string){
   token = validToken(token)
   try{
     const response = await api.get(`/students/count?type=""&filter=""`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return response;
+  }catch(e){
+    return (e as any)?.response;
+  }
+}
+
+export async function deleteStudentApi(token: string, studentId: number){
+  token = validToken(token)
+  try{
+    const response = await api.delete(`/students/${studentId}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

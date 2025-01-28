@@ -11,7 +11,7 @@ import {
 
 import { PagesData, StudentData } from "..";
 import ErrorAlert from "../../ErrorAlert";
-import { getStudents } from "../../../config";
+import { deleteStudentApi, getQtStudents, getStudents } from "../../../config";
 import { ErrorData } from "@/Components/CredentialsPage/SignIn";
 import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
@@ -32,28 +32,43 @@ export default function StudentsTable({ studentData, setStudentData, pagesData, 
 
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
   const [alertData, setAlertData] = useState<ErrorData>({ title: "", description: "", status: "error" })
+  const [deleteEffectKey, setDeleteEffectKey ] = useState<boolean>(true)
   const navigate = useNavigate()
-
-  function changePage(operation: "next" | "prev") {
-    if (operation === "next") {
-      setPagesData({ ...pagesData, page: pagesData.page + 1 })
-    }
-    if (operation === "prev") {
-      setPagesData({ ...pagesData, page: pagesData.page - 1 })
-    }
-  }
 
   function changeAlertVisibility() {
     setAlertBoxVisibility(true);
     setTimeout(() => { setAlertBoxVisibility(false) }, 5000);
   }
 
+  async function deleteStudent(id: number) {
+    const response = await deleteStudentApi(token, id)
+    console.log()
+    if (response.status !== 200) {
+      if(response.data !== "Token expirou, faça login novamente!"){
+        changeAlertVisibility()
+        setAlertData({ ...alertData, title: "Atenção!", description: response?.data || "Erro ao deletar estudante" })
+      }
+      if (response?.data === "Token expirou, faça login novamente!") {
+        setTimeout(() => navigate("/sign-in"), 3000)
+      }
+      return
+    }
+    setPagesData({...pagesData})
+    setDeleteEffectKey(!deleteEffectKey)
+    changeAlertVisibility()
+    setAlertData({ ...alertData, title: "Atenção!", description: "Estudante deletado com sucesso", status: "success"})
+    
+  }
+
+
   useEffect(() => {
     (async () => {
       const response = await getStudents(pagesData.page, token)
       if (response.status !== 200) {
-        changeAlertVisibility()
-        setAlertData({ ...alertData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
+        if(response.data !== "Token expirou, faça login novamente!"){
+          changeAlertVisibility()
+          setAlertData({ ...alertData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
+        }
         if (response?.data === "Token expirou, faça login novamente!") {
           setTimeout(() => navigate("/sign-in"), 3000)
         }
@@ -62,6 +77,26 @@ export default function StudentsTable({ studentData, setStudentData, pagesData, 
       setStudentData(response.data)
     })()
   }, [pagesData])
+
+
+  useEffect(()=>{
+    (async()=>{
+      const response = await getQtStudents(token)
+      if (response?.status !== 200) {
+        if(response.data !== "Token expirou, faça login novamente!"){
+          changeAlertVisibility()
+          setAlertData({ ...alertData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
+        }
+        setTimeout(()=>navigate("/sign-in"), 3000)
+      }else{
+        setPagesData({
+          ...pagesData, 
+          qtPage: Math.ceil(response?.data?.quantityStudents/10)
+        })
+      }
+    })()
+  }, [deleteEffectKey])
+
 
   return (
     <VStack padding={{ base: "0px 20px 20px 20px", md: "0px 66px 43px 66px" }} width={"100%"}>
@@ -84,11 +119,11 @@ export default function StudentsTable({ studentData, setStudentData, pagesData, 
             <Table.Row _hover={{ bgColor: "#f7f7f7" }} key={student.id} bgColor={"white"} color={"black"} alignItems={"center"} justifyContent={"space-around"} borderBottom={"solid 1px #0000001f"}>
               <For each={["name", "age", "class"]}>
                 {(key) => (
-                  <Table.Cell key={key} paddingLeft={{ base: "10px", md: key === "name" ? "30px" : "10px", }} textAlign={key === "name" ? "left" : "center"} >{student[key]}</Table.Cell>
+                  <Table.Cell key={key} paddingLeft={{ base: "10px", md: key === "name" ? "30px" : "10px", }} textAlign={key === "name" ? "left" : "center"}>{student[key]}</Table.Cell>
                 )}
               </For>
               <Table.Cell display={"flex"} textAlign={"center"} justifyContent={"center"}>
-                <Box _hover={{ cursor: "pointer" }}>
+                <Box _hover={{ cursor: "pointer" }} onClick={async () => { await deleteStudent(student.id) }}>
                   <FaRegTrashAlt />
                 </Box>
               </Table.Cell>
@@ -96,7 +131,7 @@ export default function StudentsTable({ studentData, setStudentData, pagesData, 
           ))}
         </Table.Body>
       </Table.Root>
-      <PaginationRoot count={pagesData.qtPage * 10} pageSize={10} defaultPage={1} onPageChange={(e)=>setPagesData({...pagesData, page: e.page})}>
+      <PaginationRoot count={pagesData.qtPage * 10} pageSize={10} defaultPage={1} onPageChange={(e) => setPagesData({ ...pagesData, page: e.page })}>
         <HStack wrap="wrap" >
           <PaginationPrevTrigger color="#D64B14" />
           <PaginationItems color="#D64B14" />
