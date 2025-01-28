@@ -9,9 +9,8 @@ import StudentsTable from "./Components/StudentsTable";
 import "./index.css";
 import MyButton from "../MyButton";
 import { getQtStudents, getStudents } from "../../config";
-import { ErrorData } from "../CredentialsPage/SignIn";
+import { CredentialUserProps, ErrorData } from "../CredentialsPage/SignIn";
 import ErrorAlert from "../ErrorAlert";
-import { TokenProps } from "@/App";
 
 export interface StudentData{
   age: number;
@@ -27,7 +26,7 @@ export interface PagesData{
   page: number
 }
 
-export default function Home({token, setToken}: TokenProps) {
+export default function Home({credentialUser, setCredentialUser}: CredentialUserProps) {
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
   const [alertData, setAlertData] = useState<ErrorData>({ title: "", description: "", status: "error" })
   const [studentsData, setStudentsData] = useState<StudentData[]>([])
@@ -42,7 +41,7 @@ export default function Home({token, setToken}: TokenProps) {
   
   useEffect(() => {
     (async () => {
-      const response = await getStudents(pagesData.page, token)
+      const response = await getStudents(pagesData.page, credentialUser)
       if (response?.status !== 200) {
         changeAlertVisibility()
         setAlertData({...alertData, description: response?.data || "Erro ao buscar alunos", status: "error", title: "Atenção" })
@@ -55,7 +54,7 @@ export default function Home({token, setToken}: TokenProps) {
 
   useEffect(()=>{
     (async()=>{
-      const response = await getQtStudents(token)
+      const response = await getQtStudents(credentialUser)
       if (response?.status !== 200) {
         changeAlertVisibility()
         setAlertData({...alertData, description: response?.data || "Erro ao buscar quantidade de alunos", status: "error", title: "Atenção" })
@@ -81,7 +80,7 @@ export default function Home({token, setToken}: TokenProps) {
         <MyButton onClick={() => navigate("/new-register")}>Criar Registro</MyButton>
       </Box>
 
-      <StudentsTable studentData={studentsData} setStudentData={setStudentsData} pagesData={pagesData} setPagesData={setPagesData} token={token}/>
+      <StudentsTable studentData={studentsData} setStudentData={setStudentsData} pagesData={pagesData} setPagesData={setPagesData} credentialUser={credentialUser}/>
 
     </ VStack>
   )

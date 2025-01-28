@@ -1,5 +1,8 @@
 import { Box, Table, For, VStack, HStack } from "@chakra-ui/react";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import {
   PaginationItems,
@@ -13,22 +16,21 @@ import { PagesData, StudentData } from "..";
 import ErrorAlert from "../../ErrorAlert";
 import { deleteStudentApi, getQtStudents, getStudents } from "../../../config";
 import { ErrorData } from "@/Components/CredentialsPage/SignIn";
-import { useEffect, useState } from "react";
-import { AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { CredentialUser } from "../../../App";
+
 
 interface StudentsTableProps {
   studentData: StudentData[];
   setStudentData: (newStudentData: StudentData[]) => void;
   pagesData: PagesData;
   setPagesData: (newPage: PagesData) => void;
-  token: string
+  credentialUser: CredentialUser
 }
 
 
 //TODO: valid with empty studentData
 
-export default function StudentsTable({ studentData, setStudentData, pagesData, setPagesData, token }: StudentsTableProps) {
+export default function StudentsTable({ studentData, setStudentData, pagesData, setPagesData, credentialUser }: StudentsTableProps) {
 
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
   const [alertData, setAlertData] = useState<ErrorData>({ title: "", description: "", status: "error" })
@@ -41,7 +43,7 @@ export default function StudentsTable({ studentData, setStudentData, pagesData, 
   }
 
   async function deleteStudent(id: number) {
-    const response = await deleteStudentApi(token, id)
+    const response = await deleteStudentApi(credentialUser, id)
     console.log()
     if (response.status !== 200) {
       if(response.data !== "Token expirou, faça login novamente!"){
@@ -63,7 +65,7 @@ export default function StudentsTable({ studentData, setStudentData, pagesData, 
 
   useEffect(() => {
     (async () => {
-      const response = await getStudents(pagesData.page, token)
+      const response = await getStudents(pagesData.page, credentialUser)
       if (response.status !== 200) {
         if(response.data !== "Token expirou, faça login novamente!"){
           changeAlertVisibility()
@@ -81,7 +83,7 @@ export default function StudentsTable({ studentData, setStudentData, pagesData, 
 
   useEffect(()=>{
     (async()=>{
-      const response = await getQtStudents(token)
+      const response = await getQtStudents(credentialUser)
       if (response?.status !== 200) {
         if(response.data !== "Token expirou, faça login novamente!"){
           changeAlertVisibility()
