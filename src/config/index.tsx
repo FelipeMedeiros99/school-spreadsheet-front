@@ -42,7 +42,7 @@ function validToken(credentialUser: CredentialUser){
 
 
 const api = axios.create({
-  baseURL: "http://15.228.21.90:5000",
+  baseURL: "https://1e73-15-228-21-90.ngrok-free.app",
   timeout: 7000
 })
 
