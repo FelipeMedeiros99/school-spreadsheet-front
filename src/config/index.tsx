@@ -43,7 +43,8 @@ function validToken(credentialUser: CredentialUser){
 // dns: 15.228.21.90
 
 const api = axios.create({
-  baseURL: "http://15.228.21.90:5000",
+  // baseURL: "http://15.228.21.90:5000",
+  baseURL: "https://school-spreadsheet-backend.onrender.com",
   timeout: 7000
 })
 
