@@ -34,6 +34,7 @@ export interface PagesData {
 }
 
 // TODO: ADD SEARCH INPUT
+// TODO: SPIN WHILE LOADING TABLE DATA
 
 export default function Home({
   credentialUser,

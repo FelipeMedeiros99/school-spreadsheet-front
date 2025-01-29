@@ -135,17 +135,29 @@ export default function StudentsTable({
             <Table.Row _hover={{ bgColor: "#f7f7f7" }} key={student?.id} bgColor={"white"} color={"black"} alignItems={"center"} justifyContent={"space-around"} borderBottom={"solid 1px #0000001f"}>
               <For each={["name", "age", "class"]}>
                 {(key) => (
-                  <Table.Cell key={key} paddingLeft={{ base: "10px", md: key === "name" ? "30px" : "10px", }} textAlign={key === "name" ? "left" : "center"}>{student?.[key]}</Table.Cell>
+                  <Table.Cell 
+                    fontSize={{base: "11px", sm: "15px", md: "20px"}} 
+                    key={key} 
+                    paddingLeft={{ base: "10px", md: key === "name" ? "30px" : "10px", }} 
+                    textAlign={key === "name" ? "left" : "center"}
+                  >{student?.[key]}</Table.Cell>
                 )}
               </For>
               
-              <Table.Cell paddingLeft={"10px"} textAlign={"center"}>
+              <Table.Cell 
+                fontSize={{base: "11px", sm: "15px", md: "20px"}} 
+                paddingLeft={"10px"} 
+                textAlign={"center"}
+                >
                 <Box width={"100%"} height={"100%"} display={"flex"} alignItems={"center"} justifyContent={"center"} _hover={{ cursor: "pointer" }} onClick={async () => { await editStudent(student) }}>
                   <FaEdit />
                 </Box>
               </Table.Cell>
 
-              <Table.Cell paddingLeft={"10px"} textAlign={"center"}>
+              <Table.Cell 
+                fontSize={{base: "11px", sm: "15px", md: "20px"}} 
+                paddingLeft={"10px"} 
+                textAlign={"center"}>
                 <Box width={"100%"} height={"100%"} display={"flex"} alignItems={"center"} justifyContent={"center"} _hover={{ cursor: "pointer" }} onClick={async () => { await deleteStudent(student?.id) }}>
                   <FaRegTrashAlt display={"flex"}/>
                 </Box>
@@ -155,7 +167,7 @@ export default function StudentsTable({
           ))}
         </Table.Body>
       </Table.Root>
-      <PaginationRoot count={pagesData.qtPage * 10} pageSize={10} defaultPage={1} onPageChange={(e) => setPagesData({ ...pagesData, page: e.page })} position={"absolute"} bottom={"43px"}>
+      <PaginationRoot count={pagesData.qtPage * 10} pageSize={10} defaultPage={1} onPageChange={(e) => setPagesData({ ...pagesData, page: e.page })} position={{base: "inherit", sm: "absolute"}} bottom={{base:"0", sm: "43px"}} >
         <HStack wrap="wrap" >
           <PaginationPrevTrigger color="#D64B14" />
           <PaginationItems color="#D64B14" />

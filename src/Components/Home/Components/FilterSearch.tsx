@@ -28,7 +28,7 @@ export default function FilterSearch({
           height={"100%"}
           paddingRight={"10px"}
           _hover={{ cursor: 'pointer' }}
-          onClick={resetInput}
+          onClick={()=>resetInput()}
           zIndex={"5"}
         >
           <IoCloseSharp />
