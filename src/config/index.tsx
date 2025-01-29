@@ -40,9 +40,11 @@ function validToken(credentialUser: CredentialUser){
 
 }
 
+// dns: 15.228.21.90
 
 const api = axios.create({
-  baseURL: "https://705f-15-228-21-90.ngrok-free.app",
+  // baseURL: "http://15.228.21.90:5000",
+  baseURL: "https://1171-15-228-21-90.ngrok-free.app",
   timeout: 7000
 })
 
