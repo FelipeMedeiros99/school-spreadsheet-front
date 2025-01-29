@@ -50,6 +50,7 @@ export default function SignIn({
   async function submitCommands(data: any) {
     setSpinnerAtive(true)
     const response = await signIn(data);
+    console.log(response)
     if (response?.status !== 200) {
       changeAlertVisibility(setAlertBoxVisibility)
       setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao fazer login" })

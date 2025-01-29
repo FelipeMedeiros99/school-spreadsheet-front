@@ -42,7 +42,7 @@ function validToken(credentialUser: CredentialUser){
 
 
 const api = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "http://15.228.21.90:5000",
   timeout: 7000
 })
 
