@@ -109,7 +109,7 @@ export default function StudentsTable({
   }, [])
 
   return (
-    <VStack padding={{ base: "0px 20px 20px 20px", md: "0px 66px 43px 66px" }} width={"100%"}>
+    <VStack padding={{ base: "0px 20px 20px 20px", md: "0px 66px 43px 66px" }} height={"640px"} position={"relative"}>
       <AnimatePresence>
         {alertBoxVisibility && <ErrorAlert alertMessageData={alertMessageData} initialPosition={-100} setVisibility={setAlertBoxVisibility} />}
       </AnimatePresence>
@@ -119,7 +119,13 @@ export default function StudentsTable({
           <Table.Row justifyContent={"space-around"} borderBottom={"solid 1px #0000001f"}>
             <For each={["nome", "idade", "turma", "editar", "deletar"]}>
               {(title) => (
-                <Table.ColumnHeader key={title} paddingLeft={{ base: "10px", md: title === "nome" ? "30px" : "10px" }} textAlign={title === "nome" ? "left" : "center"} verticalAlign={"middle"}>{title}</Table.ColumnHeader>
+                <Table.ColumnHeader 
+                  key={title} 
+                  paddingLeft={{ base: "10px", md: title === "nome" ? "30px" : "10px" }} 
+                  textAlign={title === "nome" ? "left" : "center"} 
+                  verticalAlign={"middle"}
+                  width={{md: title==="nome"? "400px": "100px"}}
+                  >{title}</Table.ColumnHeader>
               )}
             </For>
           </Table.Row>
@@ -149,7 +155,7 @@ export default function StudentsTable({
           ))}
         </Table.Body>
       </Table.Root>
-      <PaginationRoot count={pagesData.qtPage * 10} pageSize={10} defaultPage={1} onPageChange={(e) => setPagesData({ ...pagesData, page: e.page })}>
+      <PaginationRoot count={pagesData.qtPage * 10} pageSize={10} defaultPage={1} onPageChange={(e) => setPagesData({ ...pagesData, page: e.page })} position={"absolute"} bottom={"43px"}>
         <HStack wrap="wrap" >
           <PaginationPrevTrigger color="#D64B14" />
           <PaginationItems color="#D64B14" />
