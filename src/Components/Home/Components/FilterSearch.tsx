@@ -6,13 +6,13 @@ import { IoCloseSharp } from "react-icons/io5";
 interface FilterSearchProps {
   onSubmit: any;
   resetInput: any;
-  register: any
+  register: any;
 }
 
 export default function FilterSearch({ 
   onSubmit,
   resetInput,
-  register
+  register, 
 }: FilterSearchProps) {
 
 

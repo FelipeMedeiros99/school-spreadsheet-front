@@ -47,22 +47,22 @@ export default function Home({
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
   const [studentsData, setStudentsData] = useState<StudentData[]>([])
   const [pagesData, setPagesData] = useState<PagesData>({ qtPage: 0, page: 1 })
+  const [filter, setFilter] = useState("")
   const navigate = useNavigate()
   const { register, handleSubmit, reset } = useForm<FilterFindInterface>()
   const onSubmit = handleSubmit(async (data) => findFilterStudents(data))
-  
 
 
-  console.log("estudantes: ", studentsData)
 
   async function findFilterStudents(data: FilterFindInterface) {
+    setFilter(data.filter)
+
     const response = await getStudents(pagesData.page, credentialUser, data.filter)
-    // const pages = await getQtStudents(credentialUser, data.filter)
-    
-    // if (response?.status === 200 && pages?.status === 200) {
-      if (response?.status === 200) {
+    const pages = await getQtStudents(credentialUser, data.filter)
+
+    if (response?.status === 200 && pages?.status === 200) {
       setStudentsData(response?.data)
-      // setPagesData({ ...pagesData, qtPage: Math.ceil(pages?.data?.quantityStudents / 10) })
+      setPagesData({ ...pagesData, qtPage: Math.ceil(pages?.data?.quantityStudents / 10) })
       return
     }
     changeAlertVisibility(setAlertBoxVisibility)
@@ -140,6 +140,7 @@ export default function Home({
         setAlertMessageData={setAlertMessageData}
         changeAlertVisibility={changeAlertVisibility}
         setStudentDataEdit={setStudentDataEdit}
+        filter={filter}
       />
 
     </ VStack>

@@ -81,7 +81,7 @@ export async function getStudents(page: number = 1, credentialUser: CredentialUs
 export async function getQtStudents(credentialUSer: CredentialUser, filter: string = ""){
   credentialUSer = validToken(credentialUSer)
   try{
-    const response = await api.get(`/students/count?type="name"&filter=${filter}`, {
+    const response = await api.get(`/students/count?type=name&filter=${filter}`, {
       headers: {
         Authorization: `Bearer ${credentialUSer.token}`
       }
@@ -125,7 +125,6 @@ export async function editStudentApi(credentialUser: CredentialUser, studentData
 
 export async function addStudentApi(credentialUser: CredentialUser, studentData: SaveStudentData){
   credentialUser = validToken(credentialUser)
-  console.log("credentialUSer: ", credentialUser)
   try{
     const response = await api.post(`/students`, {...studentData, userId: credentialUser.userId}, {
       headers: {

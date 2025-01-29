@@ -26,7 +26,8 @@ interface StudentsTableProps {
   credentialUser: CredentialUser;
   alertMessageData: AlertMessageData;
   setAlertMessageData: (newAlert: AlertMessageData) => void;
-  changeAlertVisibility: any
+  changeAlertVisibility: any,
+  filter: string
 }
 
 export default function StudentsTable({ 
@@ -38,7 +39,8 @@ export default function StudentsTable({
   alertMessageData, 
   setAlertMessageData, 
   changeAlertVisibility,
-  setStudentDataEdit
+  setStudentDataEdit,
+  filter
 }: StudentsTableProps & {setStudentDataEdit: (newData: StudentDataEdit) => void;}) {
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
   const navigate = useNavigate();
@@ -67,7 +69,7 @@ export default function StudentsTable({
 
   useEffect(() => {
     (async () => {
-      const response = await getStudents(pagesData.page, credentialUser)
+      const response = await getStudents(pagesData.page, credentialUser, filter)
       if (response?.status !== 200) {
         if (response?.data !== "Token expirou, faça login novamente!") {
           changeAlertVisibility(setAlertBoxVisibility)
