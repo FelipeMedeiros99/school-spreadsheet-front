@@ -77,6 +77,7 @@ export default function Home({
   useEffect(() => {
     (async () => {
       const response = await getStudents(pagesData?.page, credentialUser)
+      console.log("students: ", response)
       if (response === undefined) {
         changeAlertVisibility(setAlertBoxVisibility)
         setAlertMessageData({ ...alertMessageData, description: "Erro ao conectar com o servidor", status: "error", title: "Atenção" })
@@ -96,6 +97,7 @@ export default function Home({
   useEffect(() => {
     (async () => {
       const response = await getQtStudents(credentialUser)
+      console.log("qt students: ", response)
       if (response === undefined) {
         setTimeout(() => navigate("/sign-in"), 3000)
         return
