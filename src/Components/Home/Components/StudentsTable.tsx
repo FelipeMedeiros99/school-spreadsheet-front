@@ -42,19 +42,17 @@ export default function StudentsTable({
   setStudentDataEdit,
   filter
 }: StudentsTableProps & { setStudentDataEdit: (newData: StudentDataEdit) => void; }) {
+  
+  
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
   const navigate = useNavigate();
 
   async function deleteStudent(id: number) {
     const response = await deleteStudentApi(credentialUser, id)
     if (response?.status !== 200) {
-      if (response?.data !== "Token expirou, faça login novamente!") {
-        changeAlertVisibility(setAlertBoxVisibility)
-        setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao deletar estudante" })
-      }
-      if (response?.data === "Token expirou, faça login novamente!") {
-        setTimeout(() => navigate("/sign-in"), 3000)
-      }
+      changeAlertVisibility(setAlertBoxVisibility)
+      setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao deletar estudante", status: "error" })
+      setTimeout(() => navigate("/sign-in"), 3000)
       return
     }
     setPagesData({ ...pagesData })
@@ -67,46 +65,46 @@ export default function StudentsTable({
     navigate("/edit-student")
   }
 
-  useEffect(() => {
-    (async () => {
-      const response = await getStudents(pagesData.page, credentialUser, filter)
-      if (response?.status !== 200) {
-        if (response?.data !== "Token expirou, faça login novamente!") {
-          changeAlertVisibility(setAlertBoxVisibility)
-          setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
-        }
-        if (response?.data === "Token expirou, faça login novamente!") {
-          setTimeout(() => navigate("/sign-in"), 3000)
-        }
-        return
-      }
-      setStudentData(response.data)
-    })()
-  }, [pagesData])
+  // useEffect(() => {
+  //   (async () => {
+  //     const response = await getStudents(pagesData.page, credentialUser, filter)
+  //     if (response?.status !== 200) {
+  //       if (response?.data !== "Token expirou, faça login novamente!") {
+  //         changeAlertVisibility(setAlertBoxVisibility)
+  //         setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
+  //       }
+  //       if (response?.data === "Token expirou, faça login novamente!") {
+  //         setTimeout(() => navigate("/sign-in"), 3000)
+  //       }
+  //       return
+  //     }
+  //     setStudentData(response.data)
+  //   })()
+  // }, [pagesData, alertMessageData, changeAlertVisibility, credentialUser, filter, navigate, setAlertMessageData, setStudentData])
 
 
-  useEffect(() => {
-    (async () => {
-      const response = await getQtStudents(credentialUser)
-      if (response?.status !== 200) {
-        if (response?.data !== "Token expirou, faça login novamente!") {
-          changeAlertVisibility(setAlertBoxVisibility)
-          setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
-        }
-        setTimeout(() => navigate("/sign-in"), 3000)
-        return
-      }
+  // useEffect(() => {
+  //   (async () => {
+  //     const response = await getQtStudents(credentialUser, filter)
+  //     if (response?.status !== 200) {
+  //       if (response?.data !== "Token expirou, faça login novamente!") {
+  //         changeAlertVisibility(setAlertBoxVisibility)
+  //         setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
+  //       }
+  //       setTimeout(() => navigate("/sign-in"), 3000)
+  //       return
+  //     }
 
-      const pages = Math.ceil(response?.data?.quantityStudents / 10)
-      if (pagesData.qtPage !== pages) {
-        setPagesData({
-          ...pagesData,
-          qtPage: pages
-        })
-      }
+  //     const pages = Math.ceil(response?.data?.quantityStudents / 10)
+  //     if (pagesData.qtPage !== pages) {
+  //       setPagesData({
+  //         ...pagesData,
+  //         qtPage: pages
+  //       })
+  //     }
 
-    })()
-  }, [])
+  //   })()
+  // }, [alertMessageData, changeAlertVisibility, credentialUser, filter, navigate, pagesData, setAlertMessageData, setPagesData])
 
   return (
     <VStack padding={{ base: "0px 20px 20px 20px", md: "0px 66px 43px 66px" }} height={"640px"} position={"relative"}>

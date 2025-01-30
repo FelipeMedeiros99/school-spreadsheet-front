@@ -71,46 +71,87 @@ export default function Home({
     }
   }
 
-  useEffect(() => {
-    (async () => {
-      const response = await getStudents(pagesData?.page, credentialUser)
-      console.log("students: ", response)
-      if (response === undefined) {
-        changeAlertVisibility(setAlertBoxVisibility)
-        setAlertMessageData({ ...alertMessageData, description: "Erro ao conectar com o servidor", status: "error", title: "Atenção" })
-        setTimeout(() => navigate("/sign-in"), 3000)
-        return
-      }
-      if (response?.status !== 200) {
-        changeAlertVisibility(setAlertBoxVisibility)
-        setAlertMessageData({ ...alertMessageData, description: response?.data || "Erro ao buscar alunos", status: "error", title: "Atenção" })
-        setTimeout(() => navigate("/sign-in"), 3000)
-      } else {
-        setStudentsData(response.data)
-      }
-    })()
-  }, [])
 
   useEffect(() => {
     (async () => {
-      const response = await getQtStudents(credentialUser)
-      console.log("qt students: ", response)
-      if (response === undefined) {
+      const response = await getStudents(pagesData.page, credentialUser, filter)
+      if (response?.status !== 200) {
+        if (response?.data !== "Token expirou, faça login novamente!") {
+          changeAlertVisibility(setAlertBoxVisibility)
+          setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
+        }
+        if (response?.data === "Token expirou, faça login novamente!") {
+          setTimeout(() => navigate("/sign-in"), 3000)
+        }
+        return
+      }
+      setStudentsData(response.data)
+    })()
+  }, [pagesData, alertMessageData, changeAlertVisibility, credentialUser, filter, navigate, setAlertMessageData, setStudentsData])
+
+
+  useEffect(() => {
+    (async () => {
+      const response = await getQtStudents(credentialUser, filter)
+      if (response?.status !== 200) {
+        if (response?.data !== "Token expirou, faça login novamente!") {
+          changeAlertVisibility(setAlertBoxVisibility)
+          setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
+        }
         setTimeout(() => navigate("/sign-in"), 3000)
         return
       }
-      if (response?.status !== 200) {
-        changeAlertVisibility(setAlertBoxVisibility)
-        setAlertMessageData({ ...alertMessageData, description: response?.data || "Erro ao buscar quantidade de alunos", status: "error", title: "Atenção" })
-        setTimeout(() => navigate("/sign-in"), 3000)
-      } else {
+
+      const pages = Math.ceil(response?.data?.quantityStudents / 10)
+      if (pagesData.qtPage !== pages) {
         setPagesData({
           ...pagesData,
-          qtPage: Math.ceil(response?.data?.quantityStudents / 10)
+          qtPage: pages
         })
       }
+
     })()
-  }, [])
+  }, [alertMessageData, changeAlertVisibility, credentialUser, filter, navigate, pagesData, setAlertMessageData, setPagesData])
+
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const response = await getStudents(pagesData?.page, credentialUser)
+  //     if (response === undefined) {
+  //       changeAlertVisibility(setAlertBoxVisibility)
+  //       setAlertMessageData({ ...alertMessageData, description: "Erro ao conectar com o servidor", status: "error", title: "Atenção" })
+  //       setTimeout(() => navigate("/sign-in"), 3000)
+  //       return
+  //     }
+  //     if (response?.status !== 200) {
+  //       changeAlertVisibility(setAlertBoxVisibility)
+  //       setAlertMessageData({ ...alertMessageData, description: response?.data || "Erro ao buscar alunos", status: "error", title: "Atenção" })
+  //       setTimeout(() => navigate("/sign-in"), 3000)
+  //     } else {
+  //       setStudentsData(response.data)
+  //     }
+  //   })()
+  // }, [])
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const response = await getQtStudents(credentialUser)
+  //     if (response === undefined) {
+  //       setTimeout(() => navigate("/sign-in"), 3000)
+  //       return
+  //     }
+  //     if (response?.status !== 200) {
+  //       changeAlertVisibility(setAlertBoxVisibility)
+  //       setAlertMessageData({ ...alertMessageData, description: response?.data || "Erro ao buscar quantidade de alunos", status: "error", title: "Atenção" })
+  //       setTimeout(() => navigate("/sign-in"), 3000)
+  //     } else {
+  //       setPagesData({
+  //         ...pagesData,
+  //         qtPage: Math.ceil(response?.data?.quantityStudents / 10)
+  //       })
+  //     }
+  //   })()
+  // }, [])
 
 
   return (
@@ -141,6 +182,7 @@ export default function Home({
 
 
       <FilterSearch
+        setFilter={setFilter}
         onSubmit={onSubmit}
         register={register}
         resetInput={reset}

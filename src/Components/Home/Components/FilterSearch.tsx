@@ -1,18 +1,21 @@
 import { Box, Input } from "@chakra-ui/react";
 import { InputGroup } from "../../../components/ui/input-group";
 import { IoCloseSharp } from "react-icons/io5";
+import { FilterFindInterface } from "..";
 
 
 interface FilterSearchProps {
   onSubmit: any;
   resetInput: any;
   register: any;
+  setFilter: (newFilter: string) => void;
 }
 
 export default function FilterSearch({ 
   onSubmit,
   resetInput,
   register, 
+  setFilter
 }: FilterSearchProps) {
 
 
@@ -28,7 +31,10 @@ export default function FilterSearch({
           height={"100%"}
           paddingRight={"10px"}
           _hover={{ cursor: 'pointer' }}
-          onClick={()=>resetInput()}
+          onClick={()=>{
+            resetInput()
+            setFilter("")
+          }}
           zIndex={"5"}
         >
           <IoCloseSharp />
