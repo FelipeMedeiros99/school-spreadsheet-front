@@ -52,8 +52,7 @@ export default function Home({
   const onSubmit = handleSubmit(async (data) => findFilterStudents(data))
   const [spinnerOn, setSpinnerOn] = useState(false)
 
-  console.log("fui renderizado")
-
+  
   async function findFilterStudents(data: FilterFindInterface) {
     setFilter(data.filter)
     const response = await getStudents(pagesData.page, credentialUser, data.filter)
@@ -92,37 +91,31 @@ export default function Home({
   useEffect(() => {
     (async () => {
       setSpinnerOn(true)
-      const response = await getStudents(pagesData.page, credentialUser, filter)
-      if(response.status===200){
-        setStudentsData(response.data)
-        setSpinnerOn(false)
-        return
+      const stundentResponse = await getStudents(pagesData.page, credentialUser, filter)
+      if(stundentResponse.status===200){
+        setStudentsData(stundentResponse.data)
+      }else{
+        ativeMessageAlertAndRedirect(stundentResponse)
       }
-      ativeMessageAlertAndRedirect(response)
-      
-    })()
-  }, [pagesData, credentialUser, filter, setStudentsData])
 
+      const qtStudentsResponse = await getQtStudents(credentialUser, filter)
 
-  useEffect(() => {
-    (async () => {
-      setSpinnerOn(true)
-      
-      const response = await getQtStudents(credentialUser, filter)
-      if(response?.status === 200){
-        const pages = Math.ceil(response?.data?.quantityStudents / 10)
+      if(qtStudentsResponse?.status === 200){
+        const pages = Math.ceil(qtStudentsResponse?.data?.quantityStudents / 10)
         if (pagesData.qtPage !== pages) {
           setPagesData({
             ...pagesData,
             qtPage: pages
           })
         }
-        setSpinnerOn(false)
-        return
+      }else{
+        ativeMessageAlertAndRedirect(qtStudentsResponse)
       }
-      ativeMessageAlertAndRedirect(response)
+      setSpinnerOn(false)
+      
     })()
-  }, [ credentialUser, filter, pagesData, setPagesData, ativeMessageAlertAndRedirect])
+  }, [pagesData, credentialUser, filter, setStudentsData, ativeMessageAlertAndRedirect])
+
 
   return (
     <VStack>
