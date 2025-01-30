@@ -33,8 +33,6 @@ export interface PagesData {
   page: number
 }
 
-// TODO: SPIN WHILE LOADING TABLE DATA
-
 export default function Home({
   credentialUser,
   alertMessageData,
@@ -63,7 +61,8 @@ export default function Home({
       if (pagesData?.qtPage !== pages) {
         setPagesData({
           ...pagesData,
-          qtPage: pages
+          qtPage: pages,
+          page: 1
         })
       }
       return
@@ -109,7 +108,8 @@ export default function Home({
         if (pagesData?.qtPage !== pages) {
           setPagesData({
             ...pagesData,
-            qtPage: pages
+            qtPage: pages,
+            page: 1
           })
         }
       } else {
