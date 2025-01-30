@@ -2,10 +2,11 @@ import { Box, Heading, VStack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
+import { TailSpin } from "react-loader-spinner";
+import { useForm } from "react-hook-form";
 
 import Header from "./Components/Header";
 import StudentsTable from "./Components/StudentsTable";
-
 import "./index.css";
 import MyButton from "../MyButton";
 import { getQtStudents, getStudents } from "../../config";
@@ -13,7 +14,6 @@ import { CredentialUserProps } from "../CredentialsPage/SignIn";
 import ErrorAlert from "../ErrorAlert";
 import { StudentDataEdit } from "../EditStudent";
 import FilterSearch from "./Components/FilterSearch";
-import { useForm } from "react-hook-form";
 
 export interface FilterFindInterface {
   filter: string
@@ -33,7 +33,6 @@ export interface PagesData {
   page: number
 }
 
-// TODO: ADD SEARCH INPUT
 // TODO: SPIN WHILE LOADING TABLE DATA
 
 export default function Home({
@@ -51,6 +50,7 @@ export default function Home({
   const navigate = useNavigate()
   const { register, handleSubmit, reset } = useForm<FilterFindInterface>()
   const onSubmit = handleSubmit(async (data) => findFilterStudents(data))
+  const [spinnerOn, setSpinnerOn] = useState(false)
 
   console.log("fui renderizado")
 
@@ -60,49 +60,7 @@ export default function Home({
     const pages = await getQtStudents(credentialUser, data.filter)
 
     if (response?.status === 200 && pages?.status === 200) {
-      setStudentsData(response?.data)
-      setPagesData({ ...pagesData, qtPage: Math.ceil(pages?.data?.quantityStudents / 10) })
-      return
-    }
-    changeAlertVisibility(setAlertBoxVisibility)
-    setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudante" })
-
-    if (response?.data === "Token expirou, faça login novamente!") {
-      setTimeout(() => navigate("/sign-in"), 3000)
-    }
-  }
-
-
-  useEffect(() => {
-    (async () => {
-      const response = await getStudents(pagesData.page, credentialUser, filter)
-      if (response?.status !== 200) {
-        if (response?.data !== "Token expirou, faça login novamente!") {
-          changeAlertVisibility(setAlertBoxVisibility)
-          setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
-        }
-        if (response?.data === "Token expirou, faça login novamente!") {
-          setTimeout(() => navigate("/sign-in"), 3000)
-        }
-        return
-      }
-      setStudentsData(response.data)
-    })()
-  }, [pagesData, alertMessageData, changeAlertVisibility, credentialUser, filter, navigate, setAlertMessageData, setStudentsData])
-
-
-  useEffect(() => {
-    (async () => {
-      const response = await getQtStudents(credentialUser, filter)
-      if (response?.status !== 200) {
-        if (response?.data !== "Token expirou, faça login novamente!") {
-          changeAlertVisibility(setAlertBoxVisibility)
-          setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
-        }
-        setTimeout(() => navigate("/sign-in"), 3000)
-        return
-      }
-
+      setStudentsData(response?.data || [])
       const pages = Math.ceil(response?.data?.quantityStudents / 10)
       if (pagesData.qtPage !== pages) {
         setPagesData({
@@ -110,7 +68,59 @@ export default function Home({
           qtPage: pages
         })
       }
+      return
+    }
 
+    changeAlertVisibility(setAlertBoxVisibility)
+    setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudante", status: "error" })
+
+    if (response?.data === "Token expirou, faça login novamente!") {
+      setTimeout(() => navigate("/sign-in"), 3000)
+    }
+  }
+  
+  useEffect(() => {
+    (async () => {
+      setSpinnerOn(true)
+      const response = await getStudents(pagesData.page, credentialUser, filter)
+      if(response.status===200){
+        setStudentsData(response.data)
+        setSpinnerOn(false)
+        return
+      }
+
+      changeAlertVisibility(setAlertBoxVisibility)
+      setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes", status: "error" })
+      if (response?.data === "Token expirou, faça login novamente!") {
+        setTimeout(() => navigate("/sign-in"), 3000)
+        return
+      }
+    })()
+  }, [pagesData, alertMessageData, changeAlertVisibility, credentialUser, filter, navigate, setAlertMessageData, setStudentsData])
+
+
+  useEffect(() => {
+    (async () => {
+      setSpinnerOn(true)
+      
+      const response = await getQtStudents(credentialUser, filter)
+      if(response?.status === 200){
+        const pages = Math.ceil(response?.data?.quantityStudents / 10)
+        if (pagesData.qtPage !== pages) {
+          setPagesData({
+            ...pagesData,
+            qtPage: pages
+          })
+        }
+        setSpinnerOn(false)
+        return
+      }
+      changeAlertVisibility(setAlertBoxVisibility)
+      setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes", status: "error" })      
+      if (response?.data === "Token expirou, faça login novamente!") {
+        setTimeout(() => navigate("/sign-in"), 3000)
+      }
+      setSpinnerOn(false)
     })()
   }, [alertMessageData, changeAlertVisibility, credentialUser, filter, navigate, pagesData, setAlertMessageData, setPagesData])
 
@@ -148,18 +158,41 @@ export default function Home({
         resetInput={reset}
       />
 
-      <StudentsTable
-        studentData={studentsData}
-        setStudentData={setStudentsData}
-        pagesData={pagesData}
-        setPagesData={setPagesData}
-        credentialUser={credentialUser}
-        alertMessageData={alertMessageData}
-        setAlertMessageData={setAlertMessageData}
-        changeAlertVisibility={changeAlertVisibility}
-        setStudentDataEdit={setStudentDataEdit}
-        filter={filter}
-      />
+
+      {
+        spinnerOn ?
+          <Box 
+            height="100%"
+            width="100%"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            paddingTop="100px"
+          >
+            <TailSpin
+                visible={true}
+                height="150"
+                width="150"
+                color="#EC622C"
+                ariaLabel="tail-spin-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+              /> 
+          </Box>:
+
+          <StudentsTable
+            studentData={studentsData}
+            setStudentData={setStudentsData}
+            pagesData={pagesData}
+            setPagesData={setPagesData}
+            credentialUser={credentialUser}
+            alertMessageData={alertMessageData}
+            setAlertMessageData={setAlertMessageData}
+            changeAlertVisibility={changeAlertVisibility}
+            setStudentDataEdit={setStudentDataEdit}
+            filter={filter}
+          />
+      }
 
     </ VStack>
   )
