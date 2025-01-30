@@ -28,7 +28,7 @@ export interface EditStudentData {
 
 
 function validToken(credentialUser: CredentialUser){
-  if(!credentialUser.token || isNaN(credentialUser.userId)){
+  if(!credentialUser?.token || isNaN(credentialUser?.userId)){
     const localStorageData = localStorage.getItem("school-spreadsheet")
     if(localStorageData){
       credentialUser = JSON.parse(localStorageData)?.credentialUser
@@ -68,7 +68,7 @@ export async function getStudents(page: number = 1, credentialUser: CredentialUs
   try{
     const response = await api.get(`/students?page=${page-1}&type=name&filter=${filter}`, {
       headers: {
-        Authorization: `Bearer ${credentialUser.token}`
+        Authorization: `Bearer ${credentialUser?.token}`
       }
     });
     return response;
@@ -96,7 +96,7 @@ export async function deleteStudentApi(credentialUser: CredentialUser, studentId
   try{
     const response = await api.delete(`/students/${studentId}`, {
       headers: {
-        Authorization: `Bearer ${credentialUser.token}`
+        Authorization: `Bearer ${credentialUser?.token}`
       }
     });
     return response;
@@ -110,7 +110,7 @@ export async function editStudentApi(credentialUser: CredentialUser, studentData
   try{
     const response = await api.put(`/students`, studentData, {
       headers: {
-        Authorization: `Bearer ${credentialUser.token}`
+        Authorization: `Bearer ${credentialUser?.token}`
       }
     });
     return response;
@@ -122,9 +122,9 @@ export async function editStudentApi(credentialUser: CredentialUser, studentData
 export async function addStudentApi(credentialUser: CredentialUser, studentData: SaveStudentData){
   credentialUser = validToken(credentialUser)
   try{
-    const response = await api.post(`/students`, {...studentData, userId: credentialUser.userId}, {
+    const response = await api.post(`/students`, {...studentData, userId: credentialUser?.userId}, {
       headers: {
-        Authorization: `Bearer ${credentialUser.token}`
+        Authorization: `Bearer ${credentialUser?.token}`
       }
     });
     return response;

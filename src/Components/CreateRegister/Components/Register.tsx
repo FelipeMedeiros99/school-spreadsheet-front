@@ -30,7 +30,7 @@ export default function Register({
   async function createRegister(data: SaveStudentData) {
     setSpinnerAtive(true)
     const response = await addStudentApi(credentialUser, data)
-    if (response.status !== 201) {
+    if (response?.status !== 201) {
       changeAlertVisibility(setAlertBoxVisibility)
       setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao adicionar estudante" })
       if (response?.data === "Token expirou, faça login novamente!") {
@@ -105,8 +105,8 @@ export default function Register({
           w={"100%"}
         >
           <Field
-            invalid={!!errors.name}
-            errorText={errors.name?.message}
+            invalid={!!errors?.name}
+            errorText={errors?.name?.message}
             label="nome"
             w={{ base: "auto", lg: "547px" }}
             marginRight={{ base: "0", lg: "32px" }}
@@ -119,8 +119,8 @@ export default function Register({
             />
           </Field>
           <Field
-            invalid={!!errors.age}
-            errorText={errors.age?.message}
+            invalid={!!errors?.age}
+            errorText={errors?.age?.message}
             label="idade"
             w={{ base: "auto", xl: "153px" }}
             maxW={"547px"}
@@ -141,8 +141,8 @@ export default function Register({
           </Field>
         </Box>
         <Field
-          invalid={!!errors.class}
-          errorText={errors.class?.message}
+          invalid={!!errors?.class}
+          errorText={errors?.class?.message}
           label="turma"
           w={{ base: "auto", md: "547px" }}
           maxW={"547px"}

@@ -29,13 +29,13 @@ export default function Register({
   const onSubmit = handleSubmit(async (data) => await editRegister(data))
 
   useEffect(() => {
-    reset({ name: studentData.name, age: studentData.age, class: studentData.class, studentId: studentData.id })
+    reset({ name: studentData?.name, age: studentData?.age, class: studentData?.class, studentId: studentData?.id })
   }, [studentData, reset])
 
   async function editRegister(data: EditType) {
     setSpinnerAtive(true)
     const response = await editStudentApi(credentialUser, data)
-    if (response.status !== 200) {
+    if (response?.status !== 200) {
       changeAlertVisibility(setAlertBoxVisibility)
       setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao editar estudante", status: "error" })
       if (response?.data === "Token expirou, faça login novamente!") {
@@ -91,8 +91,8 @@ export default function Register({
       >
         <Box display={{ xl: "flex" }} flexDirection={{ base: "column", lg: "row" }} w="100%">
           <Field
-            invalid={!!errors.name}
-            errorText={errors.name?.message}
+            invalid={!!errors?.name}
+            errorText={errors?.name?.message}
             label="nome"
             w={{ base: "auto", lg: "547px" }}
             marginRight={{ base: "0", lg: "32px" }}
@@ -107,8 +107,8 @@ export default function Register({
           </Field>
 
           <Field
-            invalid={!!errors.age}
-            errorText={errors.age?.message}
+            invalid={!!errors?.age}
+            errorText={errors?.age?.message}
             label="idade"
             w={{ base: "auto", xl: "153px" }}
             maxW="547px"
@@ -128,8 +128,8 @@ export default function Register({
         </Box>
 
         <Field
-          invalid={!!errors.class}
-          errorText={errors.class?.message}
+          invalid={!!errors?.class}
+          errorText={errors?.class?.message}
           label="turma"
           w={{ base: "auto", md: "547px" }}
           maxW="547px"

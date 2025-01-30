@@ -170,10 +170,10 @@ export default function StudentsTable({
         </Table.Body>
       </Table.Root>
       <PaginationRoot
-        count={pagesData.qtPage * 10}
+        count={pagesData?.qtPage * 10}
         pageSize={10}
         defaultPage={1}
-        onPageChange={(e) => setPagesData({ ...pagesData, page: e.page })}
+        onPageChange={(e) => setPagesData({ ...pagesData, page: e?.page })}
         position={{ base: "inherit", sm: "absolute" }}
         bottom={{ base: "0", sm: "43px" }}
       >

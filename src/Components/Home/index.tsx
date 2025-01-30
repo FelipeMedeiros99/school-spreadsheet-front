@@ -53,14 +53,14 @@ export default function Home({
   const [spinnerOn, setSpinnerOn] = useState(false)
 
   async function findFilterStudents(data: FilterFindInterface) {
-    setFilter(data.filter)
-    const response = await getStudents(pagesData.page, credentialUser, data.filter)
-    const pages = await getQtStudents(credentialUser, data.filter)
+    setFilter(data?.filter)
+    const response = await getStudents(pagesData?.page, credentialUser, data?.filter)
+    const pages = await getQtStudents(credentialUser, data?.filter)
 
     if (response?.status === 200 && pages?.status === 200) {
       setStudentsData(response?.data || [])
       const pages = Math.ceil(response?.data?.quantityStudents / 10)
-      if (pagesData.qtPage !== pages) {
+      if (pagesData?.qtPage !== pages) {
         setPagesData({
           ...pagesData,
           qtPage: pages
@@ -87,13 +87,17 @@ export default function Home({
     }
   }, [alertMessageData, changeAlertVisibility, navigate, setAlertMessageData, alertBoxVisibility])
 
+
+  useEffect(()=>{
+    setSpinnerOn(true)
+  }, [])
+
   useEffect(() => {
     (async () => {
-      setSpinnerOn(true)
 
-      const stundentResponse = await getStudents(pagesData.page, credentialUser, filter)
-      if (stundentResponse.status === 200) {
-        setStudentsData(stundentResponse.data)
+      const stundentResponse = await getStudents(pagesData?.page, credentialUser, filter)
+      if (stundentResponse?.status === 200) {
+        setStudentsData(stundentResponse?.data)
       } else {
         ativeMessageAlertAndRedirect(stundentResponse)
       }
@@ -102,7 +106,7 @@ export default function Home({
 
       if (qtStudentsResponse?.status === 200) {
         const pages = Math.ceil(qtStudentsResponse?.data?.quantityStudents / 10)
-        if (pagesData.qtPage !== pages) {
+        if (pagesData?.qtPage !== pages) {
           setPagesData({
             ...pagesData,
             qtPage: pages

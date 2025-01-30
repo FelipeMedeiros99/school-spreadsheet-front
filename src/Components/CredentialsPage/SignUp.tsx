@@ -45,7 +45,7 @@ export default function SignUp({
   async function submitCommands(data: any) {
     setSpinnerAtive(true)
     const response = await signUp(data);
-    if (response.status !== 201) {
+    if (response?.status !== 201) {
       setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao fazer cadastro", status: "error" })
       changeAlertVisibility(setAlertBoxVisibility)
       setSpinnerAtive(false)
@@ -76,8 +76,8 @@ export default function SignUp({
       <TextTop title="Cadastro" subtitle="Cadastre-se com os dados solicitados" />
       <Field
         label="email"
-        invalid={!!errors.email}
-        errorText={errors.email?.message}
+        invalid={!!errors?.email}
+        errorText={errors?.email?.message}
       >
         <Input
           disabled={spinnerAtive}
@@ -96,8 +96,8 @@ export default function SignUp({
       <Field
         className="passwordInput"
         label="senha"
-        invalid={!!errors.password}
-        errorText={errors.password?.message}
+        invalid={!!errors?.password}
+        errorText={errors?.password?.message}
       >
         <PasswordInput
           disabled={spinnerAtive}
@@ -116,8 +116,8 @@ export default function SignUp({
       <Field
         className="passwordInput"
         label="confirmar senha"
-        invalid={!!errors.confirmPassword}
-        errorText={errors.confirmPassword?.message}
+        invalid={!!errors?.confirmPassword}
+        errorText={errors?.confirmPassword?.message}
       >
         <PasswordInput
           disabled={spinnerAtive}

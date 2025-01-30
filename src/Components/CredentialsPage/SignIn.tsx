@@ -52,8 +52,8 @@ export default function SignIn({
       changeAlertVisibility(setAlertBoxVisibility)
       setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao fazer login" })
     } else {
-      setCredentialUser(response.data)
-      localStorage.setItem("school-spreadsheet", JSON.stringify({ credentialUser: response.data }))
+      setCredentialUser(response?.data)
+      localStorage.setItem("school-spreadsheet", JSON.stringify({ credentialUser: response?.data }))
       navigate("/home")
     }
     setSpinnerAtive(false)
@@ -102,8 +102,8 @@ export default function SignIn({
       <Field
         className="passwordInput"
         label="senha"
-        invalid={!!errors.password}
-        errorText={errors.password?.message}
+        invalid={!!errors?.password}
+        errorText={errors?.password?.message}
       >
         <PasswordInput
           disabled={spinnerAtive}
