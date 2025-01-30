@@ -5,16 +5,9 @@ Este é o projeto de uma plataforma que armazena dados de estudantes, guardando 
 
 ## Hospedagem
 
-O projeto foi hospedado em duas instâncias: 
-
-  - Na **AWS**, utilizando o S3 para hospedagem do site estático, através do build gerado. O acesso é através de protocolo http. 
-  [Link do frontend hospedado na AWS](http://school-spreadsheet-front.s3-website-sa-east-1.amazonaws.com/sign-in) também hospedado na aws usando o S3. 
-
-  - Também foi hospedado na plataforma **Vercel**, utilizando o protocolo https.
-  [Link do frontend hospedado na vercel](https://school-spreadsheet-front.vercel.app/home) hospedado na plataforma vercel. 
-
-> *Obs: O projeto hospedado na plataforma Vercel é alimentada pelo servidor hospedado na render, ele entra em hibernação após determinado período de inatividade, devido à isso, pode apresentar bastante lentidão no primeiro acesso. Preferível testar usando o link da AWS* 
-
+Levando em consideração que a hospedagem na AWS seria um diferencial, todo o projeto foi hospedado lá na **AWS**, utilizando o S3 para hospedagem do site estático, através do build gerado. O acesso é feito através de protocolo http. 
+  - [Link do site hospedado](http://school-spreadsheet-front.s3-website-sa-east-1.amazonaws.com/sign-in) 
+  
 ## Funcionalidades
 
 ### Responsividade
