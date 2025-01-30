@@ -1,8 +1,6 @@
 import { Box, Input } from "@chakra-ui/react";
 import { InputGroup } from "../../../components/ui/input-group";
 import { IoCloseSharp } from "react-icons/io5";
-import { FilterFindInterface } from "..";
-
 
 interface FilterSearchProps {
   onSubmit: any;

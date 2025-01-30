@@ -1,6 +1,6 @@
 import { Box, Heading, VStack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 
 import Header from "./Components/Header";
@@ -38,7 +38,6 @@ export interface PagesData {
 
 export default function Home({
   credentialUser,
-  setCredentialUser,
   alertMessageData,
   setAlertMessageData,
   changeAlertVisibility,
@@ -52,6 +51,8 @@ export default function Home({
   const navigate = useNavigate()
   const { register, handleSubmit, reset } = useForm<FilterFindInterface>()
   const onSubmit = handleSubmit(async (data) => findFilterStudents(data))
+
+  console.log("fui renderizado")
 
   async function findFilterStudents(data: FilterFindInterface) {
     setFilter(data.filter)
@@ -112,47 +113,6 @@ export default function Home({
 
     })()
   }, [alertMessageData, changeAlertVisibility, credentialUser, filter, navigate, pagesData, setAlertMessageData, setPagesData])
-
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const response = await getStudents(pagesData?.page, credentialUser)
-  //     if (response === undefined) {
-  //       changeAlertVisibility(setAlertBoxVisibility)
-  //       setAlertMessageData({ ...alertMessageData, description: "Erro ao conectar com o servidor", status: "error", title: "Atenção" })
-  //       setTimeout(() => navigate("/sign-in"), 3000)
-  //       return
-  //     }
-  //     if (response?.status !== 200) {
-  //       changeAlertVisibility(setAlertBoxVisibility)
-  //       setAlertMessageData({ ...alertMessageData, description: response?.data || "Erro ao buscar alunos", status: "error", title: "Atenção" })
-  //       setTimeout(() => navigate("/sign-in"), 3000)
-  //     } else {
-  //       setStudentsData(response.data)
-  //     }
-  //   })()
-  // }, [])
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const response = await getQtStudents(credentialUser)
-  //     if (response === undefined) {
-  //       setTimeout(() => navigate("/sign-in"), 3000)
-  //       return
-  //     }
-  //     if (response?.status !== 200) {
-  //       changeAlertVisibility(setAlertBoxVisibility)
-  //       setAlertMessageData({ ...alertMessageData, description: response?.data || "Erro ao buscar quantidade de alunos", status: "error", title: "Atenção" })
-  //       setTimeout(() => navigate("/sign-in"), 3000)
-  //     } else {
-  //       setPagesData({
-  //         ...pagesData,
-  //         qtPage: Math.ceil(response?.data?.quantityStudents / 10)
-  //       })
-  //     }
-  //   })()
-  // }, [])
-
 
   return (
     <VStack>

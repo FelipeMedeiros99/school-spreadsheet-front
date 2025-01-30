@@ -2,7 +2,7 @@ import { Box, Table, For, VStack, HStack } from "@chakra-ui/react";
 import { FaRegTrashAlt, FaEdit } from "react-icons/fa";
 import { AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import {
   PaginationItems,
@@ -13,7 +13,7 @@ import {
 
 import { PagesData, StudentData } from "..";
 import ErrorAlert from "../../ErrorAlert";
-import { deleteStudentApi, getQtStudents, getStudents } from "../../../config";
+import { deleteStudentApi } from "../../../config";
 import { AlertMessageData, CredentialUser } from "../../../App";
 import { StudentDataEdit } from "../../../Components/EditStudent";
 
