@@ -62,3 +62,10 @@ O projeto foi desenvolvido com um design responsivo, adaptando-se automaticament
   ```bash 
   npm install 
   ```
+
+3. Após isso, execute o comando para rodar o site localmente e efetuar os testes:
+
+   ```bash
+   npm start
+   ```
+
