@@ -1,6 +1,6 @@
 import { Box, Heading, VStack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { TailSpin } from "react-loader-spinner";
 import { useForm } from "react-hook-form";
@@ -79,6 +79,16 @@ export default function Home({
     }
   }
   
+  const ativeMessageAlertAndRedirect = useCallback((response: any)=>{
+    if(!alertBoxVisibility){
+      changeAlertVisibility(setAlertBoxVisibility)
+      setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes", status: "error" })
+      if (response?.data === "Token expirou, faça login novamente!") {
+        setTimeout(() => navigate("/sign-in"), 3000)
+      }
+    }
+  }, [alertMessageData, changeAlertVisibility, navigate, setAlertMessageData, alertBoxVisibility])
+  
   useEffect(() => {
     (async () => {
       setSpinnerOn(true)
@@ -88,15 +98,10 @@ export default function Home({
         setSpinnerOn(false)
         return
       }
-
-      changeAlertVisibility(setAlertBoxVisibility)
-      setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes", status: "error" })
-      if (response?.data === "Token expirou, faça login novamente!") {
-        setTimeout(() => navigate("/sign-in"), 3000)
-        return
-      }
+      ativeMessageAlertAndRedirect(response)
+      
     })()
-  }, [pagesData, alertMessageData, changeAlertVisibility, credentialUser, filter, navigate, setAlertMessageData, setStudentsData])
+  }, [pagesData, credentialUser, filter, setStudentsData])
 
 
   useEffect(() => {
@@ -115,14 +120,9 @@ export default function Home({
         setSpinnerOn(false)
         return
       }
-      changeAlertVisibility(setAlertBoxVisibility)
-      setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes", status: "error" })      
-      if (response?.data === "Token expirou, faça login novamente!") {
-        setTimeout(() => navigate("/sign-in"), 3000)
-      }
-      setSpinnerOn(false)
+      ativeMessageAlertAndRedirect(response)
     })()
-  }, [alertMessageData, changeAlertVisibility, credentialUser, filter, navigate, pagesData, setAlertMessageData, setPagesData])
+  }, [ credentialUser, filter, pagesData, setPagesData, ativeMessageAlertAndRedirect])
 
   return (
     <VStack>
@@ -142,7 +142,7 @@ export default function Home({
         display={"flex"}
         alignItems={"center"}
         justifyContent={"space-between"}
-        padding={{ base: "20px 20px 20px 20px", md: "43px 66px 43px 66px" }}
+        padding={{ base: "20px 20px 0px 20px", md: "43px 66px 0px 66px" }}
       >
         <Heading as="h1" fontWeight={"800"} fontSize={"24px"} marginLeft={{ base: "0", md: "30px" }}>
           Alunos

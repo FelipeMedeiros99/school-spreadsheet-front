@@ -65,47 +65,6 @@ export default function StudentsTable({
     navigate("/edit-student")
   }
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const response = await getStudents(pagesData.page, credentialUser, filter)
-  //     if (response?.status !== 200) {
-  //       if (response?.data !== "Token expirou, faça login novamente!") {
-  //         changeAlertVisibility(setAlertBoxVisibility)
-  //         setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
-  //       }
-  //       if (response?.data === "Token expirou, faça login novamente!") {
-  //         setTimeout(() => navigate("/sign-in"), 3000)
-  //       }
-  //       return
-  //     }
-  //     setStudentData(response.data)
-  //   })()
-  // }, [pagesData, alertMessageData, changeAlertVisibility, credentialUser, filter, navigate, setAlertMessageData, setStudentData])
-
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const response = await getQtStudents(credentialUser, filter)
-  //     if (response?.status !== 200) {
-  //       if (response?.data !== "Token expirou, faça login novamente!") {
-  //         changeAlertVisibility(setAlertBoxVisibility)
-  //         setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes" })
-  //       }
-  //       setTimeout(() => navigate("/sign-in"), 3000)
-  //       return
-  //     }
-
-  //     const pages = Math.ceil(response?.data?.quantityStudents / 10)
-  //     if (pagesData.qtPage !== pages) {
-  //       setPagesData({
-  //         ...pagesData,
-  //         qtPage: pages
-  //       })
-  //     }
-
-  //   })()
-  // }, [alertMessageData, changeAlertVisibility, credentialUser, filter, navigate, pagesData, setAlertMessageData, setPagesData])
-
   return (
     <VStack padding={{ base: "0px 20px 20px 20px", md: "0px 66px 43px 66px" }} height={"640px"} position={"relative"}>
       <AnimatePresence>
@@ -130,7 +89,7 @@ export default function StudentsTable({
                   }}
                   textAlign={title === "nome" ? "left" : "center"}
                   verticalAlign="middle"
-                  width={{ md: title === "nome" ? "400px" : "100px" }}
+                  width={title === "nome" ? "750px" : "200px" }
                 >
                   {title}
                 </Table.ColumnHeader>
