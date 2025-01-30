@@ -22,7 +22,14 @@ export type EditStudentType  = CredentialUserProps & {
   studentData: StudentDataEdit
 }
 
-export default function EditStudent({credentialUser, setCredentialUser, alertMessageData, setAlertMessageData, changeAlertVisibility, studentData}: EditStudentType) {
+export default function EditStudent({
+  credentialUser, 
+  setCredentialUser, 
+  alertMessageData, 
+  setAlertMessageData, 
+  changeAlertVisibility, 
+  studentData
+}: EditStudentType) {
   return (
     <Box height={"100%"} display={"flex"} position={"relative"}>
       <NavBarTop />

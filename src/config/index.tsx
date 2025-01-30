@@ -40,8 +40,6 @@ function validToken(credentialUser: CredentialUser){
 
 }
 
-// dns: 15.228.21.90
-
 const api = axios.create({
   baseURL: "http://18.231.155.115:5000",
   timeout: 7000
@@ -107,7 +105,6 @@ export async function deleteStudentApi(credentialUser: CredentialUser, studentId
   }
 }
 
-
 export async function editStudentApi(credentialUser: CredentialUser, studentData: Omit<EditStudentData, "studentId"> &{studentId: number}){
   credentialUser = validToken(credentialUser)
   try{
@@ -121,8 +118,6 @@ export async function editStudentApi(credentialUser: CredentialUser, studentData
     return (e as any)?.response;
   }
 }
-
-
 
 export async function addStudentApi(credentialUser: CredentialUser, studentData: SaveStudentData){
   credentialUser = validToken(credentialUser)

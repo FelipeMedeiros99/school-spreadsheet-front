@@ -1,7 +1,7 @@
 import { Input } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { Oval} from "react-loader-spinner"
+import { Oval } from "react-loader-spinner"
 
 import { Field } from "../../components/ui/field";
 import { PasswordInput } from "../../components/ui/password-input";
@@ -11,7 +11,6 @@ import TextTop from "./Components/TextTop";
 import MyButton from "../MyButton";
 
 import "./index.css";
-import { ErrorData } from "./SignIn";
 import { useState } from "react";
 import ErrorAlert from "../ErrorAlert";
 import { AnimatePresence } from "framer-motion";
@@ -24,17 +23,21 @@ interface FormValues {
   confirmPassword: string
 }
 
-export interface CredentialSignupProps{
+export interface CredentialSignupProps {
   alertMessageData: AlertMessageData;
-  setAlertMessageData: (newAlert: AlertMessageData)=>void;
+  setAlertMessageData: (newAlert: AlertMessageData) => void;
   changeAlertVisibility: any
 }
 
-export default function SignUp({alertMessageData, setAlertMessageData, changeAlertVisibility}: CredentialSignupProps) {
+export default function SignUp({
+  alertMessageData,
+  setAlertMessageData,
+  changeAlertVisibility
+}: CredentialSignupProps) {
 
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
   const [spinnerAtive, setSpinnerAtive] = useState(false)
-  const navigate = useNavigate() 
+  const navigate = useNavigate()
   const { register, handleSubmit, formState: { errors }, watch } = useForm<FormValues>()
   const onSubmit = handleSubmit((data) => { submitCommands(data) })
   const passwordValue = watch("password")
@@ -49,7 +52,7 @@ export default function SignUp({alertMessageData, setAlertMessageData, changeAle
     } else {
       setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: "Cadastro feito com sucesso!", status: "success" })
       changeAlertVisibility(setAlertBoxVisibility)
-      setTimeout(()=>navigate("/sign-in"), 2000)
+      setTimeout(() => navigate("/sign-in"), 2000)
 
     }
     setSpinnerAtive(false)
@@ -57,9 +60,18 @@ export default function SignUp({alertMessageData, setAlertMessageData, changeAle
 
   return (
 
-    <Form onSubmit={onSubmit}>
+    <Form
+      onSubmit={onSubmit}
+    >
       <AnimatePresence>
-        {alertBoxVisibility && <ErrorAlert alertMessageData={alertMessageData} initialPosition={-50} setVisibility={setAlertBoxVisibility}/>}
+        {
+          alertBoxVisibility
+          &&
+          <ErrorAlert
+            alertMessageData={alertMessageData}
+            initialPosition={-50}
+            setVisibility={setAlertBoxVisibility}
+          />}
       </AnimatePresence>
       <TextTop title="Cadastro" subtitle="Cadastre-se com os dados solicitados" />
       <Field
@@ -120,20 +132,31 @@ export default function SignUp({alertMessageData, setAlertMessageData, changeAle
         />
       </Field>
 
-      <MyButton disabled={spinnerAtive} type="submit" w={"100%"} position={"relative"}>{spinnerAtive? 
-        <Oval
-        visible={true}
-        height="80"
-        width="80"
-        color="white"
-        ariaLabel="oval-loading"
-        wrapperStyle={{}}
-        wrapperClass=""
-        />
-        :"Entrar"}
+      <MyButton
+        disabled={spinnerAtive}
+        type="submit"
+        w={"100%"}
+        position={"relative"}>
+        {
+          spinnerAtive ?
+            <Oval
+              visible={true}
+              height="80"
+              width="80"
+              color="white"
+              ariaLabel="oval-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+            /> :
+            "Entrar"
+        }
       </MyButton>
 
-      <Link to={"/sign-in"}>Já possui cadastro? Faça login!</Link>
+      <Link
+        to={"/sign-in"}
+      >
+        Já possui cadastro? Faça login!
+      </Link>
 
     </Form>
   )

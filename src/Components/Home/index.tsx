@@ -53,11 +53,8 @@ export default function Home({
   const { register, handleSubmit, reset } = useForm<FilterFindInterface>()
   const onSubmit = handleSubmit(async (data) => findFilterStudents(data))
 
-
-
   async function findFilterStudents(data: FilterFindInterface) {
     setFilter(data.filter)
-
     const response = await getStudents(pagesData.page, credentialUser, data.filter)
     const pages = await getQtStudents(credentialUser, data.filter)
 
@@ -120,12 +117,28 @@ export default function Home({
     <VStack>
       <Header />
       <AnimatePresence>
-        {alertBoxVisibility && <ErrorAlert alertMessageData={alertMessageData} initialPosition={0} setVisibility={setAlertBoxVisibility} />}
+        {alertBoxVisibility &&
+          <ErrorAlert
+            alertMessageData={alertMessageData}
+            initialPosition={0}
+            setVisibility={setAlertBoxVisibility}
+          />
+        }
       </AnimatePresence>
-      <Box w={"100%"} display={"flex"} alignItems={"center"} justifyContent={"space-between"} padding={{ base: "20px 20px 20px 20px", md: "43px 66px 43px 66px" }}>
-        <Heading as="h1" fontWeight={"800"} fontSize={"24px"} marginLeft={{ base: "0", md: "30px" }}>Alunos</Heading>
+
+      <Box
+        w={"100%"}
+        display={"flex"}
+        alignItems={"center"}
+        justifyContent={"space-between"}
+        padding={{ base: "20px 20px 20px 20px", md: "43px 66px 43px 66px" }}
+      >
+        <Heading as="h1" fontWeight={"800"} fontSize={"24px"} marginLeft={{ base: "0", md: "30px" }}>
+          Alunos
+        </Heading>
         <MyButton onClick={() => navigate("/new-register")}>Criar Registro</MyButton>
       </Box>
+
 
       <FilterSearch
         onSubmit={onSubmit}

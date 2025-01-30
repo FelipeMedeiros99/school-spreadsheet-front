@@ -32,7 +32,6 @@ export interface CredentialUserProps {
 
 
 export default function SignIn({
-  credentialUser,
   setCredentialUser,
   alertMessageData,
   setAlertMessageData,
@@ -44,7 +43,6 @@ export default function SignIn({
 
   const { register, handleSubmit, formState: { errors }, } = useForm<SignInUserData>();
   const onSubmit = handleSubmit(async (data) => submitCommands(data));
-
   const navigate = useNavigate()
 
   async function submitCommands(data: any) {
@@ -63,12 +61,25 @@ export default function SignIn({
   }
 
   return (
-    <Form onSubmit={onSubmit} position={"relative"}>
+    <Form
+      onSubmit={onSubmit}
+      position={"relative"}
+    >
       <AnimatePresence>
-        {alertBoxVisibility && <ErrorAlert alertMessageData={alertMessageData} initialPosition={-150} setVisibility={setAlertBoxVisibility} />}
+        {
+          alertBoxVisibility
+          &&
+          <ErrorAlert
+            alertMessageData={alertMessageData}
+            initialPosition={-150}
+            setVisibility={setAlertBoxVisibility}
+          />
+        }
       </AnimatePresence>
-
-      <TextTop title="Login" subtitle="entre com seu email e senha" />
+      <TextTop
+        title="Login"
+        subtitle="entre com seu email e senha"
+      />
       <Field
         label="email"
         invalid={!!errors?.email}
@@ -88,7 +99,6 @@ export default function SignIn({
           })}
         />
       </Field>
-
 
       <Field
         className="passwordInput"
@@ -110,21 +120,27 @@ export default function SignIn({
         />
       </Field>
 
-      <MyButton disabled={spinnerAtive} type="submit" w={"100%"} >{
-        spinnerAtive ?
-          <Oval
-            visible={true}
-            height="80"
-            width="80"
-            color="white"
-            ariaLabel="oval-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-          /> :
-          "Entrar"
-      }</MyButton>
+      <MyButton disabled={spinnerAtive} type="submit" w={"100%"} >
+        {
+          spinnerAtive ?
+            <Oval
+              visible={true}
+              height="80"
+              width="80"
+              color="white"
+              ariaLabel="oval-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+            /> :
+            "Entrar"
+        }
+      </MyButton>
 
-      <Link to={"/sign-up"}>Não possui cadastro? Cadastre-se!</Link>
+      <Link
+        to={"/sign-up"}
+      >
+        Não possui cadastro? Cadastre-se!
+      </Link>
     </Form>
   )
 }
