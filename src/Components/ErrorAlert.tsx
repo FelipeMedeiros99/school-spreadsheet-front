@@ -1,5 +1,5 @@
-import { Alert, Box, BoxProps, ProgressPropsProvider } from "@chakra-ui/react"
-import { motion, AnimatePresence } from "framer-motion";
+import { Alert, BoxProps } from "@chakra-ui/react"
+import { motion } from "framer-motion";
 import {CloseButton} from "../components/ui/close-button";
 export type StatusErrorType = "error" | "info" | "warning" | "success" | "neutral"
 
