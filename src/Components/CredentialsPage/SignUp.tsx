@@ -65,7 +65,7 @@ export default function SignUp({alertMessageData, setAlertMessageData, changeAle
 
     <Form onSubmit={onSubmit}>
       <AnimatePresence>
-        {alertBoxVisibility && <ErrorAlert alertMessageData={alertMessageData} initialPosition={-150} setVisibility={setAlertBoxVisibility}/>}
+        {alertBoxVisibility && <ErrorAlert alertMessageData={alertMessageData} initialPosition={-50} setVisibility={setAlertBoxVisibility}/>}
       </AnimatePresence>
       <TextTop title="Cadastro" subtitle="Cadastre-se com os dados solicitados" />
       <Field
