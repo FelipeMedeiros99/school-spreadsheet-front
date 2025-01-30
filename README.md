@@ -5,7 +5,7 @@ Este é o projeto de uma plataforma que armazena dados de estudantes, guardando 
 
 ## Hospedagem
 
-Levando em consideração que a hospedagem na AWS seria um diferencial, todo o projeto foi hospedado lá na **AWS**, utilizando o S3 para hospedagem do site estático, através do build gerado. O acesso é feito através de protocolo http. 
+Levando em consideração que a hospedagem na AWS seria um diferencial, todo o projeto foi hospedado lá na **AWS**, no caso do frontend, foi utilizado o S3 para hospedagem do site estático, através do build gerado. O acesso é feito através de protocolo http. 
   - [Link do site hospedado](http://school-spreadsheet-front.s3-website-sa-east-1.amazonaws.com/sign-in) 
   
 ## Funcionalidades
