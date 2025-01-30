@@ -52,7 +52,6 @@ export default function Home({
   const onSubmit = handleSubmit(async (data) => findFilterStudents(data))
   const [spinnerOn, setSpinnerOn] = useState(false)
 
-  
   async function findFilterStudents(data: FilterFindInterface) {
     setFilter(data.filter)
     const response = await getStudents(pagesData.page, credentialUser, data.filter)
@@ -77,9 +76,9 @@ export default function Home({
       setTimeout(() => navigate("/sign-in"), 3000)
     }
   }
-  
-  const ativeMessageAlertAndRedirect = useCallback((response: any)=>{
-    if(!alertBoxVisibility){
+
+  const ativeMessageAlertAndRedirect = useCallback((response: any) => {
+    if (!alertBoxVisibility) {
       changeAlertVisibility(setAlertBoxVisibility)
       setAlertMessageData({ ...alertMessageData, title: "Atenção!", description: response?.data || "Erro ao buscar estudantes", status: "error" })
       if (response?.data === "Token expirou, faça login novamente!") {
@@ -87,20 +86,21 @@ export default function Home({
       }
     }
   }, [alertMessageData, changeAlertVisibility, navigate, setAlertMessageData, alertBoxVisibility])
-  
+
   useEffect(() => {
     (async () => {
       setSpinnerOn(true)
+
       const stundentResponse = await getStudents(pagesData.page, credentialUser, filter)
-      if(stundentResponse.status===200){
+      if (stundentResponse.status === 200) {
         setStudentsData(stundentResponse.data)
-      }else{
+      } else {
         ativeMessageAlertAndRedirect(stundentResponse)
       }
 
       const qtStudentsResponse = await getQtStudents(credentialUser, filter)
 
-      if(qtStudentsResponse?.status === 200){
+      if (qtStudentsResponse?.status === 200) {
         const pages = Math.ceil(qtStudentsResponse?.data?.quantityStudents / 10)
         if (pagesData.qtPage !== pages) {
           setPagesData({
@@ -108,13 +108,12 @@ export default function Home({
             qtPage: pages
           })
         }
-      }else{
+      } else {
         ativeMessageAlertAndRedirect(qtStudentsResponse)
       }
       setSpinnerOn(false)
-      
     })()
-  }, [pagesData, credentialUser, filter, setStudentsData, ativeMessageAlertAndRedirect])
+  }, [pagesData, credentialUser, filter, ativeMessageAlertAndRedirect])
 
 
   return (
@@ -154,7 +153,7 @@ export default function Home({
 
       {
         spinnerOn ?
-          <Box 
+          <Box
             height="100%"
             width="100%"
             display="flex"
@@ -163,15 +162,15 @@ export default function Home({
             paddingTop="100px"
           >
             <TailSpin
-                visible={true}
-                height="150"
-                width="150"
-                color="#EC622C"
-                ariaLabel="tail-spin-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
-              /> 
-          </Box>:
+              visible={true}
+              height="150"
+              width="150"
+              color="#EC622C"
+              ariaLabel="tail-spin-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+            />
+          </Box> :
 
           <StudentsTable
             studentData={studentsData}
