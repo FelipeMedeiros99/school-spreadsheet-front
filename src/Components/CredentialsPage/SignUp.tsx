@@ -30,18 +30,14 @@ export interface CredentialSignupProps{
   changeAlertVisibility: any
 }
 
-
-
 export default function SignUp({alertMessageData, setAlertMessageData, changeAlertVisibility}: CredentialSignupProps) {
 
   const [alertBoxVisibility, setAlertBoxVisibility] = useState(false);
   const [spinnerAtive, setSpinnerAtive] = useState(false)
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate() 
   const { register, handleSubmit, formState: { errors }, watch } = useForm<FormValues>()
   const onSubmit = handleSubmit((data) => { submitCommands(data) })
   const passwordValue = watch("password")
-
 
   async function submitCommands(data: any) {
     setSpinnerAtive(true)
@@ -58,8 +54,6 @@ export default function SignUp({alertMessageData, setAlertMessageData, changeAle
     }
     setSpinnerAtive(false)
   }
-
-
 
   return (
 
@@ -125,7 +119,6 @@ export default function SignUp({alertMessageData, setAlertMessageData, changeAle
           })}
         />
       </Field>
-      
 
       <MyButton disabled={spinnerAtive} type="submit" w={"100%"} position={"relative"}>{spinnerAtive? 
         <Oval

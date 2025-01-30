@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+# SCHOOL-SPREADSHEET-FRONTEND
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este é o projeto de uma plataforma que armazena dados de estudantes, guardando o nome, idade e turma. 
 
-## Available Scripts
 
-In the project directory, you can run:
+## Hospedagem
 
-### `npm start`
+O projeto foi hospedado em duas instâncias: 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+  - Na **AWS**, utilizando o S3 para hospedagem do site estático, através do build gerado. O acesso é através de protocolo http. 
+  [Link do frontend hospedado na AWS](http://school-spreadsheet-front.s3-website-sa-east-1.amazonaws.com/sign-in) também hospedado na aws usando o S3. 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  - Também foi hospedado na plataforma **Vercel**, utilizando o protocolo https.
+  [Link do frontend hospedado na vercel](https://school-spreadsheet-front.vercel.app/home) hospedado na plataforma vercel. 
 
-### `npm test`
+> *Obs: O projeto hospedado na plataforma Vercel é alimentada pelo servidor hospedado na render, ele entra em hibernação após determinado período de inatividade, devido à isso, pode apresentar bastante lentidão no primeiro acesso. Preferível testar usando o link da AWS* 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Funcionalidades
 
-### `npm run build`
+### Responsividade
+O projeto foi desenvolvido com um design responsivo, adaptando-se automaticamente a diferentes tamanhos de tela para garantir uma experiência otimizada em qualquer dispositivo.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Telas
+1. Cadastro e login: 
+    - Todos os inputs de login possuem validação de dados para minimizar erros no preenchimento. Pop-ups interativos com mensagens personalizadas orientam o usuário sobre possíveis equívocos, garantindo uma experiência mais intuitiva.
+    - Foi utilizado o **react-hook-form** para evitar redenrizações desnecessárias, otimizando a experiência de uso do usuário 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Home: 
+    - Na home, é exibida uma tabela contendo os dados dos estudantes, organizados em ordem alfabética.
+    - É possível filtrar os estudantes, através do input de pesquisa, tornando a experiência do usuário mais agradável e a tabela mais eficiente. 
+    - Para agilizar a performance, a tabela busca e exibe apenas 10 estudantes por vez, evitndo sobrecarga na requisição e lentidão na resposta. 
+    - Na parte inferior, há um índice de pesquisa, onde o usuário pode ir para o final dos dados de forma mais rápida.
+    - É possível deletar facilmente qualquer estudante, clicando no ícone da lixeira.
+    - Ao clicar em editar, o usuário é direcionado automaticamente para a tela de edição de cadastro. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Criar registro e editar registro
+    - Há validações em todos os inputs, impedindo o preenchimento de dados de forma incorreta. 
+    - Foi utilizado o **react-hook-form** para evitar redenrizações desnecessárias, otimizando a experiência de uso do usuário
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Bibliotecas e frameworks utilizados: 
+- axios
+- react-rook-form
+- typescript
+- react 
+- chakra UI
+- react-loader-spinner
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+# INSTALAÇÃO
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Pré-requisitos 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. Ter o node v22.13.1 ou versão similar instalado 
 
-### Code Splitting
+## Instalação local
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1. Clone do repositório: 
 
-### Analyzing the Bundle Size
+  ```bash
+  git clone https://github.com/FelipeMedeiros99/school-spreadsheet-front.git
+  ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+2. Instale as dependências necessárias:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  ```bash 
+  npm install 
+  ```
