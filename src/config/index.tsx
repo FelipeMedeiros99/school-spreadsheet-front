@@ -41,7 +41,7 @@ function validToken(credentialUser: CredentialUser){
 }
 
 const api = axios.create({
-  baseURL: "http://18.231.155.115:5000",
+  baseURL: "http://agenda-escolar-api.felipemedeiros.dev.br",
   timeout: 7000
 })
 
