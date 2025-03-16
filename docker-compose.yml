@@ -1,0 +1,7 @@
+services:
+  school-spreadsheet-frontend:
+    image: school-spreadsheet-frontend
+    container_name: school-spreadsheet-frontend
+    ports:
+      - "3002:3002"
+    build: .
