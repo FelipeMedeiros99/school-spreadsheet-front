@@ -5,3 +5,9 @@ services:
     ports:
       - "3002:3002"
     build: .
+    networks:
+      - web 
+
+networks:
+  web: 
+    external: true
